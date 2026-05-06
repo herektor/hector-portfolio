@@ -22,7 +22,7 @@
       --mono: 'Courier Prime', monospace;
       --border-w: 2px; --border-c: #0e0e0c;
       --btn-bg: #c9272d; --btn-fg: #f7f4ef;
-      --h1-size: clamp(64px,11vw,148px); --h2-size: clamp(36px,6vw,72px);
+      --h1-size: clamp(64px,11vw,148px); --h2-size: clamp(34px,6vw,72px);
       --menu-bg: #0e0e0c; --menu-ink: #f7f4ef;
     }
     [data-theme="atmospheric"] {
@@ -34,7 +34,7 @@
       --mono: 'Courier Prime', monospace;
       --border-w: 1px; --border-c: rgba(255,255,255,0.1);
       --btn-bg: #5de0c8; --btn-fg: #0d0c10;
-      --h1-size: clamp(60px,11vw,148px); --h2-size: clamp(34px,5.5vw,68px);
+      --h1-size: clamp(60px,11vw,148px); --h2-size: clamp(32px,5.5vw,68px);
       --menu-bg: #5de0c8; --menu-ink: #0d0c10;
     }
     [data-theme="brutalist"] {
@@ -45,7 +45,7 @@
       --mono: 'Courier Prime', monospace;
       --border-w: 3px; --border-c: #0a0a09;
       --btn-bg: #0a0a09; --btn-fg: #efefeb;
-      --h1-size: clamp(62px,10vw,140px); --h2-size: clamp(32px,5.5vw,68px);
+      --h1-size: clamp(62px,10vw,140px); --h2-size: clamp(30px,5.5vw,68px);
       --menu-bg: #0a0a09; --menu-ink: #efefeb;
     }
     [data-theme="metal"] {
@@ -56,7 +56,7 @@
       --mono: 'Courier Prime', monospace;
       --border-w: 1px; --border-c: #2a2a2a;
       --btn-bg: #f0f0f0; --btn-fg: #0a0a0a;
-      --h1-size: clamp(58px,10vw,136px); --h2-size: clamp(28px,4.5vw,58px);
+      --h1-size: clamp(58px,10vw,136px); --h2-size: clamp(26px,4.5vw,58px);
       --menu-bg: #f0f0f0; --menu-ink: #0a0a0a;
     }
 
@@ -350,6 +350,9 @@
       font-family:var(--serif); font-size:var(--h2-size);
       font-weight:700; line-height:0.95; letter-spacing:-0.01em;
       margin-bottom:32px; transition:font-family 0.4s, color 0.5s;
+      word-break: keep-all;
+      overflow-wrap: normal;
+      hyphens: none;
     }
     [data-theme="metal"] h2 { text-transform:uppercase; letter-spacing:0.04em; font-weight:400; }
     [data-theme="brutalist"] h2 { text-transform:uppercase; letter-spacing:-0.02em; font-weight:800; }
@@ -1345,10 +1348,21 @@
     document.querySelectorAll('.split-heading').forEach(h => {
       const active = h.querySelector('[data-lang].active');
       if (!active) return;
-      let html='', i=0;
-      [...active.textContent].forEach(ch => {
-        if(ch===' ') html+=`<span class="char space"> </span>`;
-        else { html+=`<span class="char" style="transition-delay:${i*36}ms">${ch}</span>`; i++; }
+      // Split by word, animate word-by-word to avoid mid-word breaks
+      const words = active.textContent.split(' ');
+      let html = '';
+      let charIdx = 0;
+      words.forEach((word, wi) => {
+        // Wrap each word in a nowrap span so it never breaks mid-word
+        html += `<span style="display:inline-block;white-space:nowrap;">`;
+        [...word].forEach(ch => {
+          html += `<span class="char" style="transition-delay:${charIdx * 36}ms">${ch}</span>`;
+          charIdx++;
+        });
+        html += `</span>`;
+        if (wi < words.length - 1) {
+          html += `<span class="char space"> </span>`;
+        }
       });
       active.innerHTML = html;
     });
