@@ -863,6 +863,141 @@
       transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
     }
 
+    /* ════════════════════════════════
+       PROJECTS SECTION
+    ════════════════════════════════ */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 48px;
+      border: var(--border-w) solid var(--border-c);
+      transition: border-color 0.5s;
+    }
+    @media(max-width: 700px) { .projects-grid { grid-template-columns: 1fr; } }
+
+    .proj-card {
+      display: flex;
+      flex-direction: column;
+      border-right: var(--border-w) solid var(--border-c);
+      transition: background 0.2s, border-color 0.5s;
+      overflow: hidden;
+    }
+    .proj-card:last-child { border-right: none; }
+    .proj-card:hover { background: var(--bg-alt); }
+
+    /* placeholder logo area */
+    .proj-logo-wrap {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: var(--border-w) solid var(--border-c);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.5s;
+    }
+    /* unique bg per project */
+    .proj-card-farscope .proj-logo-wrap  { background: #0a0a14; }
+    .proj-card-akki     .proj-logo-wrap  { background: #0f140a; }
+    .proj-card-store    .proj-logo-wrap  { background: #140a0a; }
+
+    /* geometric placeholder mark */
+    .proj-logo-mark {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .proj-logo-text {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1;
+      transition: font-family 0.4s;
+    }
+    .proj-card-farscope .proj-logo-text { color: #4a9eff; }
+    .proj-card-akki     .proj-logo-text { color: #4aff8a; }
+    .proj-card-store    .proj-logo-text { color: #ff7a4a; }
+
+    /* subtle grid lines behind mark */
+    .proj-logo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* status badge */
+    .proj-status {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 2px;
+    }
+    .proj-status-beta { background: rgba(255,200,0,0.15); color: #ffc800; border: 1px solid rgba(255,200,0,0.3); }
+    .proj-status-live { background: rgba(74,255,138,0.12); color: #4aff8a; border: 1px solid rgba(74,255,138,0.3); }
+
+    .proj-body {
+      padding: 28px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 10px;
+    }
+    .proj-type {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      transition: color 0.5s;
+    }
+    .proj-name {
+      font-family: var(--serif);
+      font-size: clamp(22px, 2.8vw, 32px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--ink);
+      transition: font-family 0.4s, color 0.5s;
+    }
+    [data-theme="metal"] .proj-name { text-transform: uppercase; font-weight: 400; }
+    [data-theme="brutalist"] .proj-name { text-transform: uppercase; }
+    .proj-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: none;
+      margin: 0;
+      transition: color 0.5s;
+    }
+    .proj-offer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--rule);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      transition: border-color 0.5s, color 0.5s;
+    }
+
+    /* when logo image is ready, swap in like this:
+       .proj-logo-img { width:100%; height:100%; object-fit:contain; padding:20px; } */
+
     /* Enable smooth interpolation of mask custom properties */
     @property --photo-spread {
       syntax: '<percentage>';
@@ -959,10 +1094,11 @@
     <div class="hero-orb orb-metal"></div>
     <div class="masthead-inner">
       <div class="issue-line">
-        <span class="issue-text">Helsinki, Finland · Available for hire</span>
+        <span class="issue-text">Helsinki, Finland · Available for new projects</span>
         <nav class="issue-nav">
           <a href="#reel"><span data-lang="en" class="active">Work</span><span data-lang="fi">Työt</span><span data-lang="es">Trabajo</span><span data-lang="fr">Travaux</span></a>
           <a href="#services"><span data-lang="en" class="active">Services</span><span data-lang="fi">Palvelut</span><span data-lang="es">Servicios</span><span data-lang="fr">Services</span></a>
+          <a href="#projects"><span data-lang="en" class="active">Projects</span><span data-lang="fi">Projektit</span><span data-lang="es">Proyectos</span><span data-lang="fr">Projets</span></a>
           <a href="#about"><span data-lang="en" class="active">About</span><span data-lang="fi">Tietoa</span><span data-lang="es">Sobre mí</span><span data-lang="fr">À propos</span></a>
           <a href="#hire"><span data-lang="en" class="active">Hire</span><span data-lang="fi">Palkkaa</span><span data-lang="es">Contratar</span><span data-lang="fr">Recruter</span></a>
         </nav>
@@ -971,10 +1107,10 @@
         <div class="hero-left">
           <div>
             <p class="kicker">
-              <span data-lang="en" class="active">Filmmaker · Scriptwriter · Content Strategist</span>
-              <span data-lang="fi">Elokuvantekijä · Käsikirjoittaja · Sisältöstrategi</span>
-              <span data-lang="es">Cineasta · Guionista · Estratega de Contenido</span>
-              <span data-lang="fr">Cinéaste · Scénariste · Stratège de Contenu</span>
+              <span data-lang="en" class="active">Filmmaker · App builder · Digital product founder · Helsinki</span>
+              <span data-lang="fi">Elokuvantekijä · Sovellusten rakentaja · Digitaalinen tuottaja · Helsinki</span>
+              <span data-lang="es">Cineasta · Creador de apps · Fundador digital · Helsinki</span>
+              <span data-lang="fr">Cinéaste · Créateur d'apps · Fondateur digital · Helsinki</span>
             </p>
             <div class="h1-text-lines">
               <h1>
@@ -996,28 +1132,28 @@
             </div>
           </div>
           <p class="hero-byline">
-            <span data-lang="en" class="active">Based in Helsinki · Working globally · 4 languages</span>
-            <span data-lang="fi">Helsinki · Maailmanlaajuisesti · 4 kieltä</span>
-            <span data-lang="es">Helsinki · Global · 4 idiomas</span>
-            <span data-lang="fr">Helsinki · International · 4 langues</span>
+            <span data-lang="en" class="active">100+ projects delivered · 20+ brands · 4 languages · Helsinki → worldwide</span>
+            <span data-lang="fi">100+ projektia · 20+ brändiä · 4 kieltä · Helsinki → maailmalle</span>
+            <span data-lang="es">100+ proyectos · 20+ marcas · 4 idiomas · Helsinki → mundial</span>
+            <span data-lang="fr">100+ projets · 20+ marques · 4 langues · Helsinki → mondial</span>
           </p>
         </div>
         <div class="hero-divider"></div>
         <div class="hero-right">
-                    <div class="hero-photo-wrap">
+          <div class="hero-photo-wrap">
             <img class="hero-photo hero-photo-magazine"    src="https://miinkbmpfzsukwqragxh.supabase.co/storage/v1/object/public/portfolio-images/magazine.webp" alt="Hector Estrada"/>
             <img class="hero-photo hero-photo-atmospheric" src="https://miinkbmpfzsukwqragxh.supabase.co/storage/v1/object/public/portfolio-images/atmospheric.webp" alt="Hector Estrada"/>
             <img class="hero-photo hero-photo-brutalist"   src="https://miinkbmpfzsukwqragxh.supabase.co/storage/v1/object/public/portfolio-images/brutalist.webp" alt="Hector Estrada"/>
             <img class="hero-photo hero-photo-metal-img"   src="https://miinkbmpfzsukwqragxh.supabase.co/storage/v1/object/public/portfolio-images/metal.webp" alt="Hector Estrada"/>
           </div>
           <p class="hero-deck">
-            <span data-lang="en" class="active">I make films, write scripts, and build content strategies that actually work. Commercial. Creative. Accountable.</span>
-            <span data-lang="fi">Teen elokuvia, kirjoitan käsikirjoituksia ja rakennan sisältöstrategioita, jotka oikeasti toimivat.</span>
-            <span data-lang="es">Hago películas, escribo guiones y construyo estrategias de contenido que realmente funcionan.</span>
-            <span data-lang="fr">Je fais des films, j'écris des scripts et je construis des stratégies de contenu qui fonctionnent vraiment.</span>
+            <span data-lang="en" class="active">I make content that performs and build digital products that work. From your brand film to your delivery app — concept to launch, one person, no hand-offs.</span>
+            <span data-lang="fi">Teen sisältöä joka toimii ja rakennan digitaalisia tuotteita jotka toimivat. Brändifilmistäsi toimitusohjelmistoon — ideasta lanseeraukseen, yksi ihminen, ei välikäsiä.</span>
+            <span data-lang="es">Creo contenido que funciona y construyo productos digitales que funcionan. Desde tu film de marca hasta tu app de delivery — concepto al lanzamiento, una persona, sin intermediarios.</span>
+            <span data-lang="fr">Je crée du contenu qui performe et construis des produits digitaux qui fonctionnent. De votre film de marque à votre app de livraison — concept au lancement, une personne, sans intermédiaires.</span>
           </p>
           <div class="hero-cta">
-            <a href="#hire" class="btn-primary"><span data-lang="en" class="active">Hire me</span><span data-lang="fi">Palkkaa minut</span><span data-lang="es">Contrátame</span><span data-lang="fr">Me recruter</span></a>
+            <a href="#hire" class="btn-primary"><span data-lang="en" class="active">Work with me</span><span data-lang="fi">Tee yhteistyötä</span><span data-lang="es">Trabajemos juntos</span><span data-lang="fr">Travaillons ensemble</span></a>
             <a href="#reel" class="btn-secondary"><span data-lang="en" class="active">Watch reel</span><span data-lang="fi">Katso demo</span><span data-lang="es">Ver reel</span><span data-lang="fr">Voir le reel</span></a>
           </div>
         </div>
@@ -1032,27 +1168,122 @@
   </div>
 
   <div id="services" class="page draw-rule">
-    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Services</span><span data-lang="fi">Palvelut</span><span data-lang="es">Servicios</span><span data-lang="fr">Services</span></span></p>
-    <h2 class="split-heading"><span data-lang="en" class="active">What I do</span><span data-lang="fi">Mitä teen</span><span data-lang="es">Lo que hago</span><span data-lang="fr">Ce que je fais</span></h2>
+    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">What I offer</span><span data-lang="fi">Mitä tarjoan</span><span data-lang="es">Lo que ofrezco</span><span data-lang="fr">Ce que j'offre</span></span></p>
+    <h2 class="split-heading"><span data-lang="en" class="active">Results, not just video</span><span data-lang="fi">Tuloksia, ei vain videoita</span><span data-lang="es">Resultados, no solo video</span><span data-lang="fr">Des résultats, pas juste de la vidéo</span></h2>
     <div class="services-spread">
-      <div class="svc assemble" data-delay="0"><div class="svc-num">01</div><div class="svc-title"><span data-lang="en" class="active">Film & Video</span><span data-lang="fi">Elokuva & Video</span><span data-lang="es">Film & Video</span><span data-lang="fr">Film & Vidéo</span></div><p class="svc-body"><span data-lang="en" class="active">Music videos, commercials, corporate content. Concept to cut.</span><span data-lang="fi">Musiikkivideot, mainokset, yritysvideot.</span><span data-lang="es">Clips, comerciales, contenido corporativo.</span><span data-lang="fr">Clips, spots, contenus corporate.</span></p></div>
-      <div class="svc assemble" data-delay="120"><div class="svc-num">02</div><div class="svc-title"><span data-lang="en" class="active">Scriptwriting</span><span data-lang="fi">Käsikirjoitus</span><span data-lang="es">Guión</span><span data-lang="fr">Scénarisation</span></div><p class="svc-body"><span data-lang="en" class="active">Scripts for campaigns, branded content, short films.</span><span data-lang="fi">Käsikirjoituksia kampanjoille ja lyhytelokuville.</span><span data-lang="es">Guiones para campañas y cortometrajes.</span><span data-lang="fr">Scripts pour campagnes et courts-métrages.</span></p></div>
-      <div class="svc assemble" data-delay="240"><div class="svc-num">03</div><div class="svc-title"><span data-lang="en" class="active">Content Strategy</span><span data-lang="fi">Sisältöstrategia</span><span data-lang="es">Estrategia</span><span data-lang="fr">Stratégie</span></div><p class="svc-body"><span data-lang="en" class="active">Monthly and yearly plans. Social, digital, print, newsletters.</span><span data-lang="fi">Kuukausi- ja vuosisuunnitelmat.</span><span data-lang="es">Planes mensuales y anuales.</span><span data-lang="fr">Plans mensuels et annuels.</span></p></div>
+      <div class="svc assemble" data-delay="0">
+        <div class="svc-num">01</div>
+        <div class="svc-title"><span data-lang="en" class="active">Video people finish watching</span><span data-lang="fi">Video, jota katsotaan loppuun</span><span data-lang="es">Video que se ve completo</span><span data-lang="fr">Vidéo que l'on regarde jusqu'au bout</span></div>
+        <p class="svc-body"><span data-lang="en" class="active">Music videos, brand films, commercials, social content. Every frame intentional — from concept to final cut.</span><span data-lang="fi">Musiikkivideot, brandifilmit, mainokset, somesisältö. Jokainen kuva harkittu — ideasta valmiiseen leikkaukseen.</span><span data-lang="es">Videoclips, films de marca, comerciales, contenido social. Cada plano intencional — del concepto al corte final.</span><span data-lang="fr">Clips, films de marque, spots, contenus sociaux. Chaque plan intentionnel — du concept au montage final.</span></p>
+      </div>
+      <div class="svc assemble" data-delay="120">
+        <div class="svc-num">02</div>
+        <div class="svc-title"><span data-lang="en" class="active">Stories that sell without feeling like ads</span><span data-lang="fi">Tarinoita, jotka myyvät ilman mainosmaisuutta</span><span data-lang="es">Historias que venden sin parecer anuncios</span><span data-lang="fr">Des histoires qui vendent sans ressembler à des pubs</span></div>
+        <p class="svc-body"><span data-lang="en" class="active">Scripts for campaigns, branded content, and short films. Copy that moves people — not just informs them.</span><span data-lang="fi">Käsikirjoituksia kampanjoille ja lyhytelokuville. Tekstiä, joka liikuttaa — ei vain informoi.</span><span data-lang="es">Guiones para campañas y cortometrajes. Textos que mueven — no solo informan.</span><span data-lang="fr">Scripts pour campagnes et courts-métrages. Du texte qui émeut — pas seulement informe.</span></p>
+      </div>
+      <div class="svc assemble" data-delay="240">
+        <div class="svc-num">03</div>
+        <div class="svc-title"><span data-lang="en" class="active">A content plan your team can actually execute</span><span data-lang="fi">Sisältösuunnitelma, jota tiimisi oikeasti toteuttaa</span><span data-lang="es">Un plan de contenido que tu equipo puede ejecutar</span><span data-lang="fr">Un plan de contenu que votre équipe peut vraiment exécuter</span></div>
+        <p class="svc-body"><span data-lang="en" class="active">Monthly and yearly strategies. Built around your audience, your budget, and what actually performs — not what looks good on paper.</span><span data-lang="fi">Kuukausi- ja vuosistrategiat. Rakennettu yleisösi, budjettisi ja todellisuuden ympärille — ei sen, mikä näyttää hyvältä paperilla.</span><span data-lang="es">Estrategias mensuales y anuales. Construidas en torno a tu audiencia, tu presupuesto y lo que realmente funciona.</span><span data-lang="fr">Stratégies mensuelles et annuelles. Construites autour de votre audience, votre budget, et ce qui performe vraiment.</span></p>
+      </div>
     </div>
     <div class="services-spread-2">
-      <div class="svc assemble" data-delay="80"><div class="svc-num">04</div><div class="svc-title"><span data-lang="en" class="active">Production Management</span><span data-lang="fi">Tuotannonhallinta</span><span data-lang="es">Gestión</span><span data-lang="fr">Direction</span></div><p class="svc-body"><span data-lang="en" class="active">Briefing creatives, managing timelines, delivering on schedule.</span><span data-lang="fi">Tekijöiden briefaus ja aikataulut.</span><span data-lang="es">Briefing, plazos, entrega.</span><span data-lang="fr">Briefing, délais, livraison.</span></p></div>
-      <div class="svc assemble" data-delay="200"><div class="svc-num">05</div><div class="svc-title"><span data-lang="en" class="active">SEO & Analytics</span><span data-lang="fi">SEO & Analytiikka</span><span data-lang="es">SEO & Analítica</span><span data-lang="fr">SEO & Analytique</span></div><p class="svc-body"><span data-lang="en" class="active">Data-informed content. Track what works, cut what doesn't.</span><span data-lang="fi">Datapohjainen sisältö.</span><span data-lang="es">Contenido basado en datos.</span><span data-lang="fr">Contenu guidé par les données.</span></p></div>
-      <div class="svc assemble" data-delay="320"><div class="svc-num">06</div><div class="svc-title"><span data-lang="en" class="active">Client Relations</span><span data-lang="fi">Asiakassuhteet</span><span data-lang="es">Relaciones</span><span data-lang="fr">Relations Clients</span></div><p class="svc-body"><span data-lang="en" class="active">Running and leading client meetings. Vision into execution.</span><span data-lang="fi">Asiakaspalaverit ja koordinointi.</span><span data-lang="es">Reuniones y coordinación.</span><span data-lang="fr">Réunions clients, coordination.</span></p></div>
+      <div class="svc assemble" data-delay="80">
+        <div class="svc-num">04</div>
+        <div class="svc-title"><span data-lang="en" class="active">Production that doesn't miss deadlines</span><span data-lang="fi">Tuotanto, joka ei myöhästy</span><span data-lang="es">Producción que no pierde plazos</span><span data-lang="fr">Une production qui respecte les délais</span></div>
+        <p class="svc-body"><span data-lang="en" class="active">Full production management — briefing, scheduling, crew coordination, delivery. You focus on your business, I handle the rest.</span><span data-lang="fi">Koko tuotannon hallinta — briefaus, aikataulutus, tiimin koordinointi, toimitus. Sinä keskityt bisnekseen, minä hoidan loput.</span><span data-lang="es">Gestión completa de producción — briefing, planificación, coordinación, entrega. Tú en tu negocio, yo en el resto.</span><span data-lang="fr">Gestion complète de production — briefing, planning, coordination, livraison. Vous sur votre activité, moi sur le reste.</span></p>
+      </div>
+      <div class="svc assemble" data-delay="200">
+        <div class="svc-num">05</div>
+        <div class="svc-title"><span data-lang="en" class="active">Content backed by data, not instinct alone</span><span data-lang="fi">Dataan perustuva sisältö</span><span data-lang="es">Contenido respaldado por datos</span><span data-lang="fr">Contenu appuyé par les données</span></div>
+        <p class="svc-body"><span data-lang="en" class="active">SEO, analytics, performance tracking. Know what's working, cut what isn't, double down on what moves the needle.</span><span data-lang="fi">SEO, analytiikka, suorituskyvyn seuranta. Tiedä mikä toimii, karsii mikä ei, panosta siihen mikä liikuttaa.</span><span data-lang="es">SEO, analítica, seguimiento de rendimiento. Saber qué funciona, cortar lo que no, apostar por lo que mueve.</span><span data-lang="fr">SEO, analytics, suivi de performance. Savoir ce qui fonctionne, couper ce qui ne marche pas, miser sur ce qui fait la différence.</span></p>
+      </div>
+      <div class="svc assemble" data-delay="320">
+        <div class="svc-num">06</div>
+        <div class="svc-title"><span data-lang="en" class="active">In 4 languages across borders</span><span data-lang="fi">Neljällä kielellä rajojen yli</span><span data-lang="es">En 4 idiomas, sin fronteras</span><span data-lang="fr">En 4 langues, sans frontières</span></div>
+        <p class="svc-body"><span data-lang="en" class="active">Finnish, English, Spanish, French — natively. Work with Nordic, Latin American, and European clients without losing nuance in translation.</span><span data-lang="fi">Suomi, englanti, espanja, ranska — äidinkielentasoisesti. Toimi pohjoismaisten, latinalaisamerikkalaisten ja eurooppalaisten asiakkaiden kanssa.</span><span data-lang="es">Finés, inglés, español, francés — nativos. Trabajo con clientes nórdicos, latinoamericanos y europeos sin perder matices.</span><span data-lang="fr">Finnois, anglais, espagnol, français — nativement. Travaillez avec des clients nordiques, latino-américains et européens sans perte de nuance.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="projects" class="page draw-rule">
+    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Digital Products</span><span data-lang="fi">Digitaaliset tuotteet</span><span data-lang="es">Productos digitales</span><span data-lang="fr">Produits numériques</span></span></p>
+    <h2 class="split-heading"><span data-lang="en" class="active">Built from scratch</span><span data-lang="fi">Rakennettu alusta asti</span><span data-lang="es">Construido desde cero</span><span data-lang="fr">Construit de zéro</span></h2>
+    <div class="projects-grid">
+
+      <!-- FARSCOPE -->
+      <div class="proj-card proj-card-farscope assemble" data-delay="0">
+        <div class="proj-logo-wrap">
+          <div class="proj-logo-mark">
+            <span class="proj-logo-text">Farscope</span>
+          </div>
+          <span class="proj-status proj-status-beta">Beta</span>
+        </div>
+        <div class="proj-body">
+          <span class="proj-type"><span data-lang="en" class="active">AI Camera App</span><span data-lang="fi">Tekoälykamerasovellus</span><span data-lang="es">App de cámara IA</span><span data-lang="fr">App caméra IA</span></span>
+          <div class="proj-name">Farscope</div>
+          <p class="proj-desc">
+            <span data-lang="en" class="active">An AI-powered camera app that gives anyone a professional eye. Built independently from concept to beta — currently in testing.</span>
+            <span data-lang="fi">Tekoälypohjainen kamerasovellus, joka antaa kenelle tahansa ammattilaisen silmän. Rakennettu itsenäisesti ideasta betaan — tällä hetkellä testauksessa.</span>
+            <span data-lang="es">Una app de cámara con IA que da a cualquiera un ojo profesional. Construida de forma independiente del concepto a la beta — actualmente en pruebas.</span>
+            <span data-lang="fr">Une app caméra IA qui donne à n'importe qui un œil professionnel. Construite de façon indépendante du concept à la bêta — actuellement en test.</span>
+          </p>
+          <p class="proj-offer"><span data-lang="en" class="active">Available as a service → Build yours</span><span data-lang="fi">Saatavilla palveluna → Rakenna omasi</span><span data-lang="es">Disponible como servicio → Construye el tuyo</span><span data-lang="fr">Disponible en service → Construisez le vôtre</span></p>
+        </div>
+      </div>
+
+      <!-- ÄKKI -->
+      <div class="proj-card proj-card-akki assemble" data-delay="150">
+        <div class="proj-logo-wrap">
+          <div class="proj-logo-mark">
+            <span class="proj-logo-text">Äkki</span>
+          </div>
+          <span class="proj-status proj-status-beta">Beta</span>
+        </div>
+        <div class="proj-body">
+          <span class="proj-type"><span data-lang="en" class="active">Delivery Platform</span><span data-lang="fi">Toimitusalusta</span><span data-lang="es">Plataforma de delivery</span><span data-lang="fr">Plateforme de livraison</span></span>
+          <div class="proj-name">Äkki</div>
+          <p class="proj-desc">
+            <span data-lang="en" class="active">A local delivery platform built to compete where the big players leave gaps. Fast, lean, Finnish. Currently in beta.</span>
+            <span data-lang="fi">Paikallinen toimitusalusta, joka kilpailee siellä missä isot toimijat jättävät aukkoja. Nopea, kevyt, suomalainen. Tällä hetkellä betassa.</span>
+            <span data-lang="es">Una plataforma de delivery local construida para competir donde los grandes dejan huecos. Rápida, ligera, finlandesa. Actualmente en beta.</span>
+            <span data-lang="fr">Une plateforme de livraison locale construite pour concurrencer là où les grands laissent des lacunes. Rapide, légère, finnoise. Actuellement en bêta.</span>
+          </p>
+          <p class="proj-offer"><span data-lang="en" class="active">Available as a service → Build yours</span><span data-lang="fi">Saatavilla palveluna → Rakenna omasi</span><span data-lang="es">Disponible como servicio → Construye el tuyo</span><span data-lang="fr">Disponible en service → Construisez le vôtre</span></p>
+        </div>
+      </div>
+
+      <!-- STORE -->
+      <div class="proj-card proj-card-store assemble" data-delay="300">
+        <div class="proj-logo-wrap">
+          <div class="proj-logo-mark">
+            <span class="proj-logo-text">Store</span>
+          </div>
+          <span class="proj-status proj-status-live">Live</span>
+        </div>
+        <div class="proj-body">
+          <span class="proj-type"><span data-lang="en" class="active">Print-on-demand</span><span data-lang="fi">Tilaustulostusmyymälä</span><span data-lang="es">Tienda print-on-demand</span><span data-lang="fr">Boutique print-on-demand</span></span>
+          <div class="proj-name"><span data-lang="en" class="active">Print Store</span><span data-lang="fi">Verkkokauppa</span><span data-lang="es">Tienda</span><span data-lang="fr">Boutique</span></div>
+          <p class="proj-desc">
+            <span data-lang="en" class="active">A live print-on-demand store — zero inventory, global fulfilment, built and running. Proof that e-commerce doesn't need a warehouse.</span>
+            <span data-lang="fi">Toimiva tilaustulostusmyymälä — ei varastoa, globaali toimitus, rakennettu ja käynnissä. Todiste siitä, ettei verkkokauppa tarvitse varastoa.</span>
+            <span data-lang="es">Una tienda print-on-demand en funcionamiento — sin inventario, envíos globales, construida y activa. Prueba de que el e-commerce no necesita almacén.</span>
+            <span data-lang="fr">Une boutique print-on-demand en ligne — zéro stock, livraison mondiale, construite et active. La preuve que l'e-commerce n'a pas besoin d'entrepôt.</span>
+          </p>
+          <p class="proj-offer"><span data-lang="en" class="active">Available as a service → Build yours</span><span data-lang="fi">Saatavilla palveluna → Rakenna omasi</span><span data-lang="es">Disponible como servicio → Construye el tuyo</span><span data-lang="fr">Disponible en service → Construisez le vôtre</span></p>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <div id="about" class="page draw-rule">
     <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">About</span><span data-lang="fi">Tietoa</span><span data-lang="es">Sobre mí</span><span data-lang="fr">À propos</span></span></p>
-    <h2 class="split-heading"><span data-lang="en" class="active">The person behind the work</span><span data-lang="fi">Ihminen työn takana</span><span data-lang="es">La persona detrás</span><span data-lang="fr">La personne derrière</span></h2>
+    <h2 class="split-heading"><span data-lang="en" class="active">Why clients come back</span><span data-lang="fi">Miksi asiakkaat palaavat</span><span data-lang="es">Por qué los clientes vuelven</span><span data-lang="fr">Pourquoi les clients reviennent</span></h2>
     <div class="about-layout">
       <div class="about-main slide-left">
-        <p class="pull-quote"><span data-lang="en" class="active">"I make things people actually watch."</span><span data-lang="fi">"Teen asioita, joita ihmiset oikeasti katsovat."</span><span data-lang="es">"Hago cosas que la gente realmente ve."</span><span data-lang="fr">"Je crée des choses que les gens regardent vraiment."</span></p>
-        <p><span data-lang="en" class="active">Filmmaker, scriptwriter, and content strategist based in Helsinki. I work across commercial production and brand strategy — bringing a director's eye and a writer's instinct to every project.</span><span data-lang="fi">Elokuvantekijä, käsikirjoittaja ja sisältöstrategi Helsingissä. Teen kaupallista tuotantoa ja brändistrategiaa ohjaajan silmällä ja kirjoittajan vaistolla.</span><span data-lang="es">Cineasta, guionista y estratega de contenido en Helsinki. Producción comercial y estrategia de marca con ojo de director e instinto de escritor.</span><span data-lang="fr">Cinéaste, scénariste et stratège de contenu à Helsinki. Production commerciale et stratégie de marque avec l'œil d'un réalisateur et l'instinct d'un auteur.</span></p>
+        <p class="pull-quote"><span data-lang="en" class="active">"Most video looks expensive but feels empty. I make sure yours does neither."</span><span data-lang="fi">"Useimmat videot näyttävät kalliilta mutta tuntuvat tyhjiltä. Huolehdin, ettei sinun videosi tee kumpaakaan."</span><span data-lang="es">"La mayoría del video parece caro pero se siente vacío. Me aseguro de que el tuyo no haga ninguna de las dos cosas."</span><span data-lang="fr">"La plupart des vidéos semblent chères mais sonnent creux. Je m'assure que les vôtres ne font ni l'un ni l'autre."</span></p>
+        <p><span data-lang="en" class="active">15 years working across commercial production, music video, and branded content — based in Helsinki, active across Europe and Latin America. 100+ projects. 20+ brands. Talent with audiences up to 116K. I bring a director's eye and a strategist's discipline to every project — which means the work looks great and actually performs.</span><span data-lang="fi">15 vuotta kaupallista tuotantoa, musiikkivideoita ja bränditisältöä — Helsingissä, aktiivisena Euroopassa ja Latinalaisessa Amerikassa. 100+ projektia. 20+ brändiä. Esiintyjiä joilla on jopa 116K seuraajaa.</span><span data-lang="es">15 años trabajando en producción comercial, videoclips y contenido de marca — basado en Helsinki, activo en Europa y Latinoamérica. 100+ proyectos. 20+ marcas. Talento con audiencias de hasta 116K.</span><span data-lang="fr">15 ans en production commerciale, clips musicaux et contenu de marque — basé à Helsinki, actif en Europe et en Amérique latine. 100+ projets. 20+ marques. Talents avec des audiences allant jusqu'à 116K.</span></p>
       </div>
       <div class="about-sidebar slide-right">
         <div class="sidebar-head"><span data-lang="en" class="active">Languages</span><span data-lang="fi">Kielet</span><span data-lang="es">Idiomas</span><span data-lang="fr">Langues</span></div>
@@ -1065,34 +1296,34 @@
   </div>
 
   <div id="hire" class="page draw-rule">
-    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Hire me</span><span data-lang="fi">Palkkaa minut</span><span data-lang="es">Contrátame</span><span data-lang="fr">Me recruter</span></span></p>
-    <h2 class="split-heading"><span data-lang="en" class="active">Let's work together</span><span data-lang="fi">Tehdään yhteistyötä</span><span data-lang="es">Trabajemos juntos</span><span data-lang="fr">Travaillons ensemble</span></h2>
+    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Work with me</span><span data-lang="fi">Tee yhteistyötä</span><span data-lang="es">Trabajemos juntos</span><span data-lang="fr">Travaillons ensemble</span></span></p>
+    <h2 class="split-heading"><span data-lang="en" class="active">Two ways in</span><span data-lang="fi">Kaksi tapaa aloittaa</span><span data-lang="es">Dos maneras de empezar</span><span data-lang="fr">Deux façons de commencer</span></h2>
     <div class="hire-spread">
       <div class="hire-card flip-up" data-delay="0">
-        <p class="hire-tag"><span data-lang="en" class="active">Freelance & Consulting</span><span data-lang="fi">Freelance & Konsultointi</span><span data-lang="es">Freelance & Consultoría</span><span data-lang="fr">Freelance & Consulting</span></p>
-        <h3><span data-lang="en" class="active">Projects &<br/><em>Retainers</em></span><span data-lang="fi">Projektit &<br/><em>Toimeksiannot</em></span><span data-lang="es">Proyectos &<br/><em>Contratos</em></span><span data-lang="fr">Projets &<br/><em>Contrats</em></span></h3>
-        <p><span data-lang="en" class="active">I plug into your workflow or run the whole production. Flexible, fast, reliable.</span><span data-lang="fi">Integroidun työnkulkuusi tai johdan koko tuotannon.</span><span data-lang="es">Me integro en tu flujo o llevo toda la producción.</span><span data-lang="fr">Je m'intègre à votre workflow ou pilote toute la production.</span></p>
-        <a href="mailto:hektorestrada@protonmail.com?subject=Freelance%20enquiry" class="btn-primary"><span data-lang="en" class="active">Get in touch</span><span data-lang="fi">Ota yhteyttä</span><span data-lang="es">Contáctame</span><span data-lang="fr">Me contacter</span></a>
+        <p class="hire-tag"><span data-lang="en" class="active">Project · Retainer · Consulting</span><span data-lang="fi">Projekti · Toimeksianto · Konsultointi</span><span data-lang="es">Proyecto · Contrato · Consultoría</span><span data-lang="fr">Projet · Contrat · Consulting</span></p>
+        <h3><span data-lang="en" class="active">You have a brief.<br/><em>I deliver.</em></span><span data-lang="fi">Sinulla on brief.<br/><em>Minä toimitan.</em></span><span data-lang="es">Tienes un brief.<br/><em>Yo entrego.</em></span><span data-lang="fr">Vous avez un brief.<br/><em>Je livre.</em></span></h3>
+        <p><span data-lang="en" class="active">Single projects or ongoing retainers — with a discount for recurring work. Starting from €1,000 depending on scope. And a rule I always follow: good, fast, or cheap. Pick two.</span><span data-lang="fi">Yksittäiset projektit tai jatkuvat toimeksiannot — alennuksella toistuvasta yhteistyöstä. Alkaen 1 000 € laajuudesta riippuen. Ja sääntö jota noudatan aina: hyvä, nopea tai halpa. Valitse kaksi.</span><span data-lang="es">Proyectos únicos o contratos continuos — con descuento para colaboraciones recurrentes. Desde €1.000 según el alcance. Y una regla que siempre aplico: bueno, rápido o barato. Elige dos.</span><span data-lang="fr">Projets uniques ou contrats récurrents — avec une remise pour les collaborations régulières. À partir de 1 000 € selon la portée. Et une règle que j'applique toujours : bon, rapide ou pas cher. Choisissez deux.</span></p>
+        <a href="mailto:hektorestrada@protonmail.com?subject=Project%20enquiry" class="btn-primary"><span data-lang="en" class="active">Start a conversation</span><span data-lang="fi">Aloita keskustelu</span><span data-lang="es">Inicia una conversación</span><span data-lang="fr">Démarrer une conversation</span></a>
       </div>
       <div class="hire-card flip-up" data-delay="160">
-        <p class="hire-tag"><span data-lang="en" class="active">Full-time Role</span><span data-lang="fi">Kokoaikainen rooli</span><span data-lang="es">Puesto full-time</span><span data-lang="fr">Poste à temps plein</span></p>
-        <h3><span data-lang="en" class="active">Open to<br/><em>Opportunities</em></span><span data-lang="fi">Avoin<br/><em>mahdollisuuksille</em></span><span data-lang="es">Abierto a<br/><em>ofertas</em></span><span data-lang="fr">Ouvert aux<br/><em>opportunités</em></span></h3>
-        <p><span data-lang="en" class="active">Content, marketing, creative direction. Finland-based, available across Europe.</span><span data-lang="fi">Sisältö, markkinointi, luova johtaminen. Saatavilla Euroopassa.</span><span data-lang="es">Contenido, marketing, dirección creativa. Disponible en Europa.</span><span data-lang="fr">Contenu, marketing, direction créative. Disponible en Europe.</span></p>
-        <a href="mailto:hektorestrada@protonmail.com?subject=Job%20opportunity" class="btn-secondary"><span data-lang="en" class="active">Send opportunity</span><span data-lang="fi">Lähetä tarjous</span><span data-lang="es">Enviar oferta</span><span data-lang="fr">Envoyer l'offre</span></a>
+        <p class="hire-tag"><span data-lang="en" class="active">Full-time · Part-time · Creative lead</span><span data-lang="fi">Kokoaikainen · Osa-aikainen · Luova johtaja</span><span data-lang="es">Tiempo completo · Parcial · Dirección creativa</span><span data-lang="fr">Temps plein · Partiel · Direction créative</span></p>
+        <h3><span data-lang="en" class="active">You need someone<br/><em>inside the team.</em></span><span data-lang="fi">Tarvitset jonkun<br/><em>tiimin sisälle.</em></span><span data-lang="es">Necesitas a alguien<br/><em>dentro del equipo.</em></span><span data-lang="fr">Vous avez besoin de quelqu'un<br/><em>au sein de l'équipe.</em></span></h3>
+        <p><span data-lang="en" class="active">Creative direction, content leadership, video strategy. Finland-based but available across the Nordics and Europe. Open to the right opportunity.</span><span data-lang="fi">Luova johtaminen, sisältöjohtajuus, videostrategia. Helsinki-pohjainen, saatavilla Pohjoismaissa ja Euroopassa.</span><span data-lang="es">Dirección creativa, liderazgo de contenido, estrategia de video. Basado en Helsinki, disponible en Nórdicos y Europa.</span><span data-lang="fr">Direction créative, leadership contenu, stratégie vidéo. Basé à Helsinki, disponible dans les pays nordiques et en Europe.</span></p>
+        <a href="mailto:hektorestrada@protonmail.com?subject=Role%20opportunity" class="btn-secondary"><span data-lang="en" class="active">Tell me about the role</span><span data-lang="fi">Kerro roolista</span><span data-lang="es">Cuéntame el puesto</span><span data-lang="fr">Parlez-moi du poste</span></a>
       </div>
     </div>
   </div>
 
   <div id="contact" class="page draw-rule">
     <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Contact</span><span data-lang="fi">Yhteystiedot</span><span data-lang="es">Contacto</span><span data-lang="fr">Contact</span></span></p>
-    <h2 class="split-heading"><span data-lang="en" class="active">Say hello</span><span data-lang="fi">Sano moi</span><span data-lang="es">Di hola</span><span data-lang="fr">Dites bonjour</span></h2>
-    <p class="fade-up" data-delay="180"><span data-lang="en" class="active">No forms. No noise. Just email.</span><span data-lang="fi">Ei lomakkeita. Pelkkä sähköposti.</span><span data-lang="es">Sin formularios. Solo email.</span><span data-lang="fr">Pas de formulaire. Juste un email.</span></p>
+    <h2 class="split-heading"><span data-lang="en" class="active">Let's talk</span><span data-lang="fi">Jutellaan</span><span data-lang="es">Hablemos</span><span data-lang="fr">Parlons-en</span></h2>
+    <p class="fade-up" data-delay="180"><span data-lang="en" class="active">No contact forms. No automated replies. Send me a real email and I'll respond within 24 hours.</span><span data-lang="fi">Ei lomakkeita. Ei automaattivastauksia. Lähetä oikea sähköposti — vastaan 24 tunnin sisällä.</span><span data-lang="es">Sin formularios. Sin respuestas automáticas. Envíame un email real y responderé en 24 horas.</span><span data-lang="fr">Pas de formulaire. Pas de réponses automatiques. Envoyez un vrai email et je réponds sous 24 heures.</span></p>
     <p class="contact-email assemble" data-delay="320"><a href="mailto:hektorestrada@protonmail.com">hektorestrada@protonmail.com</a></p>
   </div>
 </main>
 
 <footer>
-  <span>© 2025 Hector Estrada</span>
+  <span>© 2026 Héctor Estrada</span>
   <span>Helsinki, Finland</span>
   <span><a href="https://www.youtube.com/@hectorextrada" target="_blank" rel="noopener">YouTube ↗</a></span>
 </footer>
@@ -1267,11 +1498,17 @@
   setTimeout(triggerVisible, 120);
 
   (function(){
-    // URL param overrides everything: ?theme=brutalist
-    const urlTheme = new URLSearchParams(window.location.search).get('theme');
+    const params      = new URLSearchParams(window.location.search);
+    const urlTheme    = params.get('theme');
+    const urlLang     = params.get('lang');
     const validThemes = ['magazine','atmospheric','brutalist','metal'];
-    const saved = localStorage.getItem('he-theme');
+    const validLangs  = ['en','fi','es','fr'];
+    const saved       = localStorage.getItem('he-theme');
 
+    // Lang param applies first so headings split in the right language
+    if (urlLang && validLangs.includes(urlLang)) setLang(urlLang);
+
+    // Theme: URL param → saved preference → random
     if (urlTheme && validThemes.includes(urlTheme)) {
       setTheme(urlTheme);
       if (urlTheme === 'metal') triggerMetalLogo(600);
