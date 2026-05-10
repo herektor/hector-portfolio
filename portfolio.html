@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="magazine">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hector Estrada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Instrument+Sans:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Metal+Mania&family=Gilda+Display&family=Outfit:wght@200;300;400;600&family=Space+Grotesk:wght@300;400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=aktura@1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ════════════════════════════════
+       THEME TOKENS
+    ════════════════════════════════ */
+    [data-theme="magazine"] {
+      --bg: #f7f4ef; --bg-alt: #ede8de; --ink: #0e0e0c;
+      --rule: #c8c2b6; --muted: #8c8680; --accent: #c9272d;
+      --serif: 'Playfair Display', Georgia, serif;
+      --body: 'Instrument Sans', sans-serif;
+      --mono: 'Courier Prime', monospace;
+      --border-w: 2px; --border-c: #0e0e0c;
+      --btn-bg: #c9272d; --btn-fg: #f7f4ef;
+      --h1-size: clamp(64px,11vw,148px); --h2-size: clamp(34px,6vw,72px);
+      --menu-bg: #0e0e0c; --menu-ink: #f7f4ef;
+    }
+    [data-theme="atmospheric"] {
+      --bg: #0d0c10; --bg-alt: #1a1825; --ink: #f0eee8;
+      --rule: rgba(255,255,255,0.08); --muted: rgba(240,238,232,0.4);
+      --accent: #5de0c8; --accent2: #b06fff;
+      --serif: 'Gilda Display', Georgia, serif;
+      --body: 'Outfit', sans-serif;
+      --mono: 'Courier Prime', monospace;
+      --border-w: 1px; --border-c: rgba(255,255,255,0.1);
+      --btn-bg: #5de0c8; --btn-fg: #0d0c10;
+      --h1-size: clamp(60px,11vw,148px); --h2-size: clamp(32px,5.5vw,68px);
+      --menu-bg: #5de0c8; --menu-ink: #0d0c10;
+    }
+    [data-theme="brutalist"] {
+      --bg: #efefeb; --bg-alt: #e2e0dc; --ink: #0a0a09;
+      --rule: #0a0a09; --muted: #888880; --accent: #0a0a09;
+      --serif: 'Syne', sans-serif;
+      --body: 'Space Grotesk', sans-serif;
+      --mono: 'Courier Prime', monospace;
+      --border-w: 3px; --border-c: #0a0a09;
+      --btn-bg: #0a0a09; --btn-fg: #efefeb;
+      --h1-size: clamp(62px,10vw,140px); --h2-size: clamp(30px,5.5vw,68px);
+      --menu-bg: #0a0a09; --menu-ink: #efefeb;
+    }
+    [data-theme="metal"] {
+      --bg: #0a0a0a; --bg-alt: #111; --ink: #f0f0f0;
+      --rule: #2a2a2a; --muted: #666; --accent: #f0f0f0;
+      --serif: 'Metal Mania', sans-serif;
+      --body: 'Instrument Sans', sans-serif;
+      --mono: 'Courier Prime', monospace;
+      --border-w: 1px; --border-c: #2a2a2a;
+      --btn-bg: #f0f0f0; --btn-fg: #0a0a0a;
+      --h1-size: clamp(58px,10vw,136px); --h2-size: clamp(26px,4.5vw,58px);
+      --menu-bg: #f0f0f0; --menu-ink: #0a0a0a;
+    }
+
+    /* ════════════════════════════════
+       GRAIN
+    ════════════════════════════════ */
+    body::before {
+      content:''; position:fixed; inset:0; z-index:998; pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size:180px 180px; transition:opacity 0.6s;
+    }
+    [data-theme="magazine"] body::before { opacity:0; }
+    [data-theme="atmospheric"] body::before { opacity:0.032; }
+    [data-theme="brutalist"] body::before { opacity:0.018; }
+    [data-theme="metal"] body::before { opacity:0.055; }
+
+    /* ════════════════════════════════
+       ORBS
+    ════════════════════════════════ */
+    .hero-orb { position:absolute; border-radius:50%; pointer-events:none; filter:blur(100px); z-index:0; opacity:0; transition:opacity 0.8s; }
+    [data-theme="atmospheric"] .hero-orb { opacity:1; }
+    [data-theme="metal"] .orb-metal { opacity:0.35; }
+    .orb-1 { width:500px;height:500px;background:radial-gradient(circle,rgba(93,224,200,.15) 0%,transparent 70%);top:-80px;right:-40px;animation:od1 16s ease-in-out infinite alternate; }
+    .orb-2 { width:400px;height:400px;background:radial-gradient(circle,rgba(176,111,255,.1) 0%,transparent 70%);bottom:-40px;left:8%;animation:od2 20s ease-in-out infinite alternate; }
+    .orb-3 { width:260px;height:260px;background:radial-gradient(circle,rgba(255,179,71,.08) 0%,transparent 70%);top:40%;left:42%;animation:od3 24s ease-in-out infinite alternate; }
+    .orb-metal { width:600px;height:300px;background:radial-gradient(ellipse,rgba(80,80,80,.18) 0%,transparent 70%);top:0;left:0;animation:od1 18s ease-in-out infinite alternate; }
+    @keyframes od1{from{transform:translate(0,0) scale(1)}to{transform:translate(-30px,50px) scale(1.08)}}
+    @keyframes od2{from{transform:translate(0,0)}to{transform:translate(50px,-30px) scale(1.06)}}
+    @keyframes od3{from{transform:translate(0,0)}to{transform:translate(-20px,40px)}}
+
+    /* ════════════════════════════════
+       BASE
+    ════════════════════════════════ */
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg); color:var(--ink); font-family:var(--body);
+      -webkit-font-smoothing:antialiased; overflow-x:hidden;
+      transition:background 0.5s, color 0.5s;
+    }
+
+    /* ════════════════════════════════
+       HAMBURGER BUTTON
+    ════════════════════════════════ */
+    /* gear button replaces burger — see GEAR BUTTON section below */
+
+    /* ════════════════════════════════
+       THEME SWITCHER CARD (compact, corner)
+    ════════════════════════════════ */
+    #menu-overlay {
+      position: fixed;
+      top: 50px;
+      left: 10px;
+      z-index: 1000;
+      background: #0e0e0e;
+      border: 1px solid rgba(255,255,255,0.12);
+      width: 190px;
+      padding: 0;
+      pointer-events: none;
+      clip-path: inset(0 100% 100% 0 round 4px);
+      transition: clip-path 0.45s cubic-bezier(0.34,1.56,0.64,1),
+                  opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .menu-open #menu-overlay {
+      clip-path: inset(0 0% 0% 0 round 4px);
+      pointer-events: all;
+      opacity: 1;
+    }
+
+    /* Theme buttons */
+    #menu-themes {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      align-items: stretch;
+      padding: 6px 0;
+    }
+
+    .menu-theme-btn {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: none;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.55);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                  background 0.15s, color 0.15s;
+      padding: 11px 16px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .menu-theme-btn:last-child { border-bottom: none; }
+    .menu-theme-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .menu-theme-btn.active-theme {
+      color: #fff !important;
+      font-weight: 700;
+      opacity: 1 !important;
+    }
+
+    /* colour swatch per theme */
+    .menu-theme-btn::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1.5px solid rgba(255,255,255,0.3);
+    }
+    .menu-theme-btn[data-t="magazine"]::before    { background: #c9272d; border-color:#c9272d; }
+    .menu-theme-btn[data-t="atmospheric"]::before { background: #5de0c8; border-color:#5de0c8; }
+    .menu-theme-btn[data-t="brutalist"]::before   { background: #efefeb; border-color:#888; }
+    .menu-theme-btn[data-t="metal"]::before       { background: #0a0a0a; border-color:#666; }
+
+    /* stagger in */
+    .menu-open .menu-theme-btn:nth-child(1) { opacity:1; transform:translateX(0); transition-delay:0.08s; }
+    .menu-open .menu-theme-btn:nth-child(2) { opacity:1; transform:translateX(0); transition-delay:0.14s; }
+    .menu-open .menu-theme-btn:nth-child(3) { opacity:1; transform:translateX(0); transition-delay:0.20s; }
+    .menu-open .menu-theme-btn:nth-child(4) { opacity:1; transform:translateX(0); transition-delay:0.26s; }
+
+    /* no divider needed in compact mode */
+    #menu-divider { display: none; }
+
+    /* ════════════════════════════════
+       LANG BAR
+    ════════════════════════════════ */
+    #lang-bar {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; justify-content:flex-end; padding:12px 40px;
+      background:var(--bg); border-bottom:var(--border-w) solid var(--border-c);
+      transition:background 0.5s, border-color 0.5s;
+    }
+    .lang-btn {
+      font-family:var(--mono); font-size:11px; letter-spacing:0.08em;
+      background:none; border:none; cursor:pointer; color:var(--muted); padding:4px 12px;
+      transition:color 0.15s;
+    }
+    .lang-btn:hover { color:var(--ink); }
+    .lang-btn.active { color:var(--accent); font-weight:700; }
+    .lang-btn + .lang-btn { border-left:1px solid var(--rule); }
+
+    main { padding-top:50px; }
+
+    /* ════════════════════════════════
+       MASTHEAD
+    ════════════════════════════════ */
+    #masthead {
+      border-bottom:var(--border-w) solid var(--border-c);
+      padding:0 40px; position:relative; overflow:hidden;
+      transition:border-color 0.5s;
+    }
+    .masthead-inner { max-width:1100px; margin:0 auto; position:relative; z-index:1; }
+
+    .issue-line {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:10px 0; border-bottom:1px solid var(--rule); transition:border-color 0.5s;
+    }
+    .issue-text { font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+    .issue-nav { display:flex; gap:24px; }
+    .issue-nav a { font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.15s; }
+    .issue-nav a:hover { color:var(--accent); }
+
+    .hero-spread {
+      display:grid; grid-template-columns:1fr 2px 1fr;
+      min-height:70vh; align-items:stretch;
+    }
+    .hero-left { padding:60px 40px 60px 0; display:flex; flex-direction:column; justify-content:space-between; }
+    .hero-right { padding:60px 0 60px 40px; display:flex; flex-direction:column; justify-content:flex-end; }
+    .hero-divider { background:var(--border-c); width:2px; transition:background 0.5s; }
+
+    .kicker {
+      font-family:var(--mono); font-size:11px; letter-spacing:0.14em;
+      text-transform:uppercase; color:var(--accent); margin-bottom:20px;
+      opacity:0; animation:fadeUp 0.5s ease forwards 0.2s;
+    }
+    [data-theme="metal"] .kicker { font-family:'Metal Mania',sans-serif; font-size:10px; letter-spacing:0.22em; color:#888; }
+    [data-theme="brutalist"] .kicker { letter-spacing:0.2em; font-weight:700; }
+
+    h1 {
+      font-family:var(--serif); font-size:var(--h1-size);
+      font-weight:900; line-height:0.88; letter-spacing:-0.02em;
+      color:var(--ink); transition:font-family 0.4s, color 0.5s;
+    }
+    [data-theme="metal"] h1 { font-weight:400; letter-spacing:0.05em; text-transform:uppercase; }
+    [data-theme="brutalist"] h1 { font-weight:800; letter-spacing:-0.03em; text-transform:uppercase; }
+    [data-theme="atmospheric"] h1 { font-weight:400; letter-spacing:-0.01em; }
+
+    [data-theme="metal"] .h1-text-lines { display:none; }
+    [data-theme="metal"] .metal-logo { display:block; }
+    .metal-logo { display:none; }
+
+    [data-theme="metal"] h1 .atmo-name {
+      background:none; -webkit-background-clip:unset; -webkit-text-fill-color:unset;
+      background-clip:unset; filter:none; font-style:normal; color:var(--ink);
+    }
+    [data-theme="atmospheric"] h1 .atmo-name {
+      background:linear-gradient(135deg,#5de0c8 0%,#b06fff 55%,#ffb347 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      filter:drop-shadow(0 0 24px rgba(93,224,200,0.3)); font-style:italic; font-weight:400;
+    }
+    h1 em { font-style:italic; font-weight:400; color:var(--accent); }
+    [data-theme="metal"] h1 em { font-style:normal; font-weight:700; color:var(--accent); }
+    [data-theme="brutalist"] h1 em { font-style:normal; color:var(--accent); }
+
+    .h1-line { display:block; overflow:hidden; }
+    .h1-line-inner { display:block; transform:translateY(110%); animation:slideUp 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    .h1-line:nth-child(1) .h1-line-inner { animation-delay:0.1s; }
+    .h1-line:nth-child(2) .h1-line-inner { animation-delay:0.22s; }
+    .h1-line:nth-child(3) .h1-line-inner { animation-delay:0.34s; }
+    .h1-line:nth-child(4) .h1-line-inner { animation-delay:0.46s; }
+
+    .hero-deck {
+      font-family:var(--serif); font-style:italic;
+      font-size:clamp(18px,2.5vw,26px); line-height:1.5;
+      color:var(--muted); max-width:400px; margin-bottom:32px;
+      opacity:0; animation:fadeUp 0.6s ease forwards 0.55s; transition:font-family 0.4s;
+    }
+    [data-theme="metal"] .hero-deck { font-style:normal; font-size:clamp(14px,1.8vw,20px); letter-spacing:0.04em; }
+    [data-theme="brutalist"] .hero-deck { font-style:normal; font-weight:400; }
+
+    .hero-byline {
+      font-family:var(--mono); font-size:10px; letter-spacing:0.1em;
+      text-transform:uppercase; color:var(--muted); border-top:1px solid var(--rule);
+      padding-top:16px; opacity:0; animation:fadeUp 0.6s ease forwards 0.65s;
+      transition:border-color 0.5s;
+    }
+    .hero-cta { display:flex; gap:12px; flex-wrap:wrap; opacity:0; animation:fadeUp 0.6s ease forwards 0.6s; }
+
+    /* ════════════════════════════════
+       BUTTONS
+    ════════════════════════════════ */
+    .btn-primary {
+      font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
+      text-decoration:none; color:var(--btn-fg); background:var(--btn-bg);
+      padding:12px 24px; display:inline-block;
+      transition:opacity 0.2s, transform 0.15s, background 0.5s;
+    }
+    .btn-primary:hover { opacity:0.85; transform:translateY(-2px); }
+    [data-theme="metal"] .btn-primary { border:1px solid #f0f0f0; font-family:'Metal Mania',sans-serif; }
+    [data-theme="brutalist"] .btn-primary { border:3px solid #0a0a09; }
+
+    .btn-secondary {
+      font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
+      text-decoration:none; color:var(--ink); border:var(--border-w) solid var(--border-c);
+      padding:12px 24px; display:inline-block;
+      transition:background 0.2s, color 0.2s, transform 0.15s, border-color 0.5s;
+    }
+    .btn-secondary:hover { background:var(--ink); color:var(--bg); transform:translateY(-2px); }
+    [data-theme="atmospheric"] .btn-secondary { border-color:rgba(93,224,200,0.3); }
+    [data-theme="atmospheric"] .btn-secondary:hover { background:rgba(93,224,200,0.15); color:#5de0c8; border-color:#5de0c8; }
+
+    /* ════════════════════════════════
+       SECTIONS
+    ════════════════════════════════ */
+    .page { max-width:1100px; margin:0 auto; padding:80px 40px; }
+
+    .draw-rule { position:relative; }
+    .draw-rule::before {
+      content:''; position:absolute; top:0; left:0;
+      height:var(--border-w); width:100%; background:var(--border-c);
+      transform:scaleX(0); transform-origin:left;
+      transition:transform 0.8s cubic-bezier(0.22,1,0.36,1), background 0.5s;
+    }
+    .draw-rule.built::before { transform:scaleX(1); }
+
+    .col-label {
+      font-family:var(--mono); font-size:10px; letter-spacing:0.12em;
+      text-transform:uppercase; color:var(--accent); margin-bottom:32px;
+      display:flex; align-items:center; gap:12px; overflow:hidden; transition:color 0.5s;
+    }
+    .col-label-text {
+      transform:translateX(-110%); opacity:0;
+      transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+      white-space:nowrap;
+    }
+    .col-label.built .col-label-text { transform:translateX(0); opacity:1; }
+    .col-label::after {
+      content:''; flex:1; height:1px; background:var(--rule);
+      transform:scaleX(0); transform-origin:left;
+      transition:transform 0.7s cubic-bezier(0.22,1,0.36,1) 0.3s, background 0.5s;
+    }
+    .col-label.built::after { transform:scaleX(1); }
+
+    h2 {
+      font-family:var(--serif); font-size:var(--h2-size);
+      font-weight:700; line-height:0.95; letter-spacing:-0.01em;
+      margin-bottom:32px; transition:font-family 0.4s, color 0.5s;
+      word-break: keep-all;
+      overflow-wrap: normal;
+      hyphens: none;
+    }
+    [data-theme="metal"] h2 { text-transform:uppercase; letter-spacing:0.04em; font-weight:400; }
+    [data-theme="brutalist"] h2 { text-transform:uppercase; letter-spacing:-0.02em; font-weight:800; }
+    h2 em { font-weight:400; font-style:italic; color:var(--accent); }
+    [data-theme="metal"] h2 em { font-style:normal; }
+    [data-theme="brutalist"] h2 em { font-style:normal; }
+
+    /* char split */
+    .split-heading .char {
+      display:inline-block;
+      transform:translateX(55px) rotate(7deg); opacity:0;
+      transition:transform 0.42s cubic-bezier(0.34,1.56,0.64,1), opacity 0.32s ease;
+    }
+    .split-heading .char.space { display:inline-block; width:0.28em; opacity:1; transform:none; }
+    .split-heading.built .char { transform:translateX(0) rotate(0deg); opacity:1; }
+
+    /* reveals */
+    .fade-up { opacity:0; transform:translateY(28px); transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+    .fade-up.built { opacity:1; transform:translateY(0); }
+    .assemble { opacity:0; transform:translateY(55px) scale(0.97); transition:opacity 0.55s cubic-bezier(0.34,1.56,0.64,1), transform 0.55s cubic-bezier(0.34,1.56,0.64,1); }
+    .assemble.built { opacity:1; transform:translateY(0) scale(1); }
+    .slide-left { opacity:0; transform:translateX(-48px); transition:opacity 0.65s cubic-bezier(0.34,1.56,0.64,1), transform 0.65s cubic-bezier(0.34,1.56,0.64,1); }
+    .slide-left.built { opacity:1; transform:translateX(0); }
+    .slide-right { opacity:0; transform:translateX(48px); transition:opacity 0.65s cubic-bezier(0.34,1.56,0.64,1), transform 0.65s cubic-bezier(0.34,1.56,0.64,1); }
+    .slide-right.built { opacity:1; transform:translateX(0); }
+    .flip-up { opacity:0; transform:perspective(800px) rotateX(16deg) translateY(38px); transform-origin:bottom center; transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+    .flip-up.built { opacity:1; transform:perspective(800px) rotateX(0deg) translateY(0); }
+
+    /* ════════════════════════════════
+       REEL
+    ════════════════════════════════ */
+    .reel-wrap {
+      position:relative; width:100%; padding-bottom:56.25%; background:#000;
+      margin-top:40px; border:var(--border-w) solid var(--border-c);
+      opacity:0; transform:scale(0.96) translateY(18px);
+      transition:opacity 0.7s cubic-bezier(0.34,1.56,0.64,1), transform 0.7s cubic-bezier(0.34,1.56,0.64,1), border-color 0.5s;
+    }
+    .reel-wrap.built { opacity:1; transform:scale(1) translateY(0); }
+    [data-theme="atmospheric"] .reel-wrap { border-image:linear-gradient(135deg,#5de0c8,#b06fff,#ffb347) 1; }
+    [data-theme="metal"] .reel-wrap { box-shadow:0 0 40px rgba(0,0,0,0.9); border-color:#333; }
+    .reel-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
+
+    /* ════════════════════════════════
+       SERVICES
+    ════════════════════════════════ */
+    .services-spread { display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:48px; border:var(--border-w) solid var(--border-c); transition:border-color 0.5s; }
+    @media(max-width:700px){ .services-spread{ grid-template-columns:1fr; } }
+    .services-spread-2 { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:var(--border-w) solid var(--border-c); border-top:1px solid var(--rule); transition:border-color 0.5s; }
+    @media(max-width:700px){ .services-spread-2{ grid-template-columns:1fr; } }
+    .svc { padding:32px 28px; border-right:1px solid var(--rule); transition:background 0.2s, border-color 0.5s; }
+    .svc:last-child { border-right:none; }
+    .svc:hover { background:var(--bg-alt); }
+    .svc-num { font-family:var(--mono); font-size:30px; font-weight:700; color:var(--bg-alt); -webkit-text-stroke:1px var(--rule); line-height:1; margin-bottom:12px; transition:color 0.5s; }
+    [data-theme="metal"] .svc-num { color:#444; -webkit-text-stroke:1px #333; }
+    [data-theme="atmospheric"] .svc-num { color:transparent; -webkit-text-stroke:1px rgba(93,224,200,0.3); }
+    [data-theme="brutalist"] .svc-num { color:var(--bg); -webkit-text-stroke:2px var(--ink); }
+    .svc-title { font-family:var(--serif); font-size:20px; font-weight:700; line-height:1.2; margin-bottom:10px; transition:font-family 0.4s; }
+    [data-theme="metal"] .svc-title { text-transform:uppercase; letter-spacing:0.05em; font-size:17px; }
+    [data-theme="brutalist"] .svc-title { text-transform:uppercase; letter-spacing:0.02em; }
+    .svc-body { font-size:13px; font-weight:300; color:var(--muted); line-height:1.6; max-width:none; margin:0; }
+
+    /* ════════════════════════════════
+       ABOUT
+    ════════════════════════════════ */
+    .about-layout { display:grid; grid-template-columns:3fr 2fr; gap:0; border:var(--border-w) solid var(--border-c); margin-top:48px; transition:border-color 0.5s; }
+    @media(max-width:680px){ .about-layout{ grid-template-columns:1fr; } }
+    .about-main { padding:48px 40px; border-right:var(--border-w) solid var(--border-c); transition:border-color 0.5s; }
+    .about-sidebar { padding:48px 32px; background:var(--bg-alt); transition:background 0.5s; }
+    .pull-quote { font-family:var(--serif); font-style:italic; font-size:clamp(20px,3vw,30px); line-height:1.35; color:var(--ink); border-left:4px solid var(--accent); padding-left:20px; margin-bottom:32px; max-width:none; transition:font-family 0.4s, color 0.5s, border-color 0.5s; }
+    [data-theme="metal"] .pull-quote { font-style:normal; border-left-color:#f0f0f0; }
+    [data-theme="brutalist"] .pull-quote { font-style:normal; font-weight:700; border-left-color:var(--accent); border-left-width:6px; }
+    [data-theme="atmospheric"] .pull-quote { border-image:linear-gradient(180deg,#5de0c8,#b06fff) 1; border-left:4px solid; }
+    .sidebar-head { font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); border-bottom:1px solid var(--rule); padding-bottom:10px; margin-bottom:20px; transition:color 0.5s, border-color 0.5s; }
+    .lang-item { display:flex; justify-content:space-between; align-items:baseline; padding:10px 0; border-bottom:1px solid var(--rule); transition:border-color 0.5s; }
+    .lang-item:last-child { border-bottom:none; }
+    .lang-name { font-family:var(--serif); font-size:20px; font-weight:700; transition:font-family 0.4s; }
+    .lang-level { font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); transition:color 0.5s; }
+
+    /* ════════════════════════════════
+       HIRE
+    ════════════════════════════════ */
+    .hire-spread { display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:48px; border:var(--border-w) solid var(--border-c); transition:border-color 0.5s; }
+    @media(max-width:600px){ .hire-spread{ grid-template-columns:1fr; } }
+    .hire-card { padding:48px 40px; }
+    .hire-card:first-child { border-right:var(--border-w) solid var(--border-c); transition:border-color 0.5s; }
+    .hire-tag { font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; transition:color 0.5s; }
+    .hire-card h3 { font-family:var(--serif); font-size:clamp(26px,3.5vw,38px); font-weight:700; line-height:1.1; margin-bottom:16px; transition:font-family 0.4s; }
+    [data-theme="metal"] .hire-card h3 { text-transform:uppercase; font-weight:400; }
+    [data-theme="brutalist"] .hire-card h3 { text-transform:uppercase; }
+    .hire-card h3 em { font-weight:400; font-style:italic; }
+    [data-theme="metal"] .hire-card h3 em { font-style:normal; color:#888; }
+    [data-theme="brutalist"] .hire-card h3 em { font-style:normal; color:var(--accent); }
+    .hire-card p { font-size:15px; max-width:none; margin-bottom:28px; }
+
+    /* ════════════════════════════════
+       CONTACT
+    ════════════════════════════════ */
+    .contact-email { font-family:var(--serif); font-size:clamp(22px,4vw,52px); font-weight:400; font-style:italic; line-height:1.1; margin-top:16px; transition:font-family 0.4s; }
+    [data-theme="metal"] .contact-email { font-style:normal; font-family:'Metal Mania',sans-serif; text-transform:uppercase; }
+    [data-theme="brutalist"] .contact-email { font-style:normal; font-weight:800; text-transform:uppercase; }
+    .contact-email a { color:var(--accent); text-decoration:none; border-bottom:2px solid transparent; transition:border-color 0.2s, color 0.5s; padding-bottom:2px; }
+    .contact-email a:hover { border-bottom-color:var(--accent); }
+    [data-theme="atmospheric"] .contact-email a { background:linear-gradient(135deg,#5de0c8,#b06fff,#ffb347); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+    p { font-family:var(--body); font-size:clamp(15px,1.6vw,17px); font-weight:300; color:var(--muted); line-height:1.75; max-width:580px; margin-bottom:18px; transition:color 0.5s, font-family 0.4s; }
+    .about-main p { color:#3a3832; }
+    [data-theme="metal"] .about-main p { color:var(--ink); opacity:0.8; }
+    [data-theme="atmospheric"] .about-main p { color:rgba(240,238,232,0.7); }
+    [data-theme="brutalist"] .about-main p { color:#222; }
+
+    footer { border-top:var(--border-w) solid var(--border-c); padding:24px 40px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; transition:border-color 0.5s; }
+    footer span { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+    footer a { color:var(--muted); text-decoration:none; }
+    footer a:hover { color:var(--accent); }
+
+    /* Metal name — custom logo image with 2026 reveal animation */
+    .metal-logo-img-wrap {
+      width: 100%;
+      max-width: 520px;
+      position: relative;
+      margin: 12px 0;
+    }
+    .metal-logo-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      /* match the visual height of h1 in other themes */
+      max-height: clamp(160px, 32vw, 360px);
+      object-fit: contain;
+      object-position: left center;
+      /* start state: hidden + glitch ready */
+      opacity: 0;
+      filter: brightness(1.1) contrast(1.05);
+      opacity: 0;
+      --reveal-spread: 1%;
+      --reveal-fade: 2%;
+      -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black var(--reveal-spread), transparent calc(var(--reveal-spread) + var(--reveal-fade)));
+      mask-image: radial-gradient(ellipse at 50% 50%, black var(--reveal-spread), transparent calc(var(--reveal-spread) + var(--reveal-fade)));
+      transition:
+        --reveal-spread 0.65s ease-out,
+        --reveal-fade   0.65s ease-out,
+        opacity         0.15s ease-out,
+        filter          0.65s ease-out;
+      filter: brightness(1.6) blur(2px);
+    }
+    .metal-logo-img.metal-revealed {
+      opacity: 1;
+      --reveal-spread: 82%;
+      --reveal-fade: 18%;
+      filter: brightness(1.05) contrast(1.05) blur(0px);
+      animation: metalFlicker 0.4s ease-out 0.6s both;
+    }
+    @keyframes metalReveal { /* kept for compatibility but not used */ from{} to{} }
+    }
+    @keyframes metalFlicker {
+      0%   { filter: brightness(1.05) contrast(1.05); }
+      20%  { filter: brightness(1.8) contrast(1.3) hue-rotate(5deg); }
+      35%  { filter: brightness(0.9) contrast(1.1); }
+      55%  { filter: brightness(1.6) contrast(1.2) hue-rotate(-3deg); }
+      70%  { filter: brightness(1.0) contrast(1.05); }
+      85%  { filter: brightness(1.4) contrast(1.1); }
+      100% { filter: brightness(1.05) contrast(1.05); }
+    }
+    /* chromatic split on hover */
+    .metal-logo-img-wrap:hover .metal-logo-img {
+      animation: chromaShift 0.4s ease-in-out;
+    }
+    @keyframes chromaShift {
+      0%   { filter: brightness(1.05) contrast(1.05); }
+      25%  { filter: brightness(1.2) contrast(1.1) saturate(1.5); transform: translate(-1px, 0); }
+      50%  { filter: brightness(1.3) hue-rotate(8deg); transform: translate(1px, 0); }
+      75%  { filter: brightness(1.1) hue-rotate(-4deg); transform: translate(-0.5px, 0); }
+      100% { filter: brightness(1.05) contrast(1.05); transform: translate(0,0); }
+    }
+
+    /* Brutalist — raw black accent, no yellow anywhere */
+    [data-theme="brutalist"] h1 em { color: var(--ink); }
+    [data-theme="brutalist"] h2 em { color: var(--ink); }
+    [data-theme="brutalist"] .kicker { color: var(--ink); opacity: 0.5; }
+    [data-theme="brutalist"] .col-label { color: var(--ink); }
+    [data-theme="brutalist"] .pull-quote { border-left-color: var(--ink); }
+    [data-theme="brutalist"] .hire-tag { color: var(--ink); opacity: 0.6; }
+    [data-theme="brutalist"] .lang-level { color: var(--ink); opacity: 0.6; }
+    [data-theme="brutalist"] .sidebar-head { color: var(--ink); opacity: 0.6; }
+    [data-theme="brutalist"] .contact-email a { color: var(--ink); }
+    [data-theme="brutalist"] footer a:hover { color: var(--ink); opacity: 0.6; }
+    /* ════════════════════════════════
+       KEYFRAMES
+    ════════════════════════════════ */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideUp { from{transform:translateY(110%)} to{transform:translateY(0)} }
+
+    /* ════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════ */
+    @media(max-width:680px){
+      .hero-spread{ grid-template-columns:1fr; }
+      .hero-divider{ display:none; }
+      .hero-left{ padding:40px 0 20px; }
+      .hero-right{ padding:20px 0 40px; }
+      #masthead{ padding:0 24px; }
+      .page{ padding:60px 24px; }
+      footer{ padding:20px 24px; }
+      #lang-bar{ padding:12px 20px; }
+      .issue-nav{ display:none; }
+    }
+
+    [data-lang]{ display:none; }
+    [data-lang].active{ display:block; }
+    span[data-lang]{ display:none; }
+    span[data-lang].active{ display:inline; }
+
+    /* ════════════════════════════════
+       GEAR BUTTON (replaces burger)
+    ════════════════════════════════ */
+    #gear-btn {
+      position: fixed; top: 0; left: 0; z-index: 1002;
+      width: 50px; height: 50px; background: none; border: none;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      padding: 8px;
+    }
+    #gear-btn svg {
+      width: 22px; height: 22px;
+      transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1), stroke 0.4s;
+    }
+    #gear-btn .gear-circle,
+    #gear-btn .gear-tooth {
+      stroke: var(--ink); fill: none;
+      stroke-width: 2; stroke-linecap: round;
+      transition: stroke 0.4s;
+    }
+    /* spin on open */
+    .menu-open #gear-btn svg { transform: rotate(120deg); }
+    /* colour flip when overlay open */
+    .menu-open #gear-btn .gear-circle,
+    .menu-open #gear-btn .gear-tooth { stroke: #fff; }
+    [data-theme="brutalist"].menu-open #gear-btn .gear-circle,
+    [data-theme="brutalist"].menu-open #gear-btn .gear-tooth { stroke: #efefeb; }
+    [data-theme="atmospheric"].menu-open #gear-btn .gear-circle,
+    [data-theme="atmospheric"].menu-open #gear-btn .gear-tooth { stroke: #0d0c10; }
+    [data-theme="metal"].menu-open #gear-btn .gear-circle,
+    [data-theme="metal"].menu-open #gear-btn .gear-tooth { stroke: #0a0a0a; }
+
+    /* ════════════════════════════════
+       RIGHT NAV — vertical center tab
+    ════════════════════════════════ */
+    #right-btn {
+      position: fixed;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%) translateX(0);
+      z-index: 1001;
+      background: var(--ink);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      padding: 14px 10px;
+      border-radius: 8px 0 0 8px;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                  background 0.5s, box-shadow 0.3s;
+      box-shadow: -2px 0 12px rgba(0,0,0,0.15);
+    }
+    /* slight retract so only part peeks out */
+    #right-btn { transform: translateY(-50%) translateX(6px); }
+    #right-btn:hover { transform: translateY(-50%) translateX(0); box-shadow: -4px 0 20px rgba(0,0,0,0.25); }
+    .rnav-open #right-btn { transform: translateY(-50%) translateX(0); }
+
+    #right-btn .r-line {
+      display: block; width: 18px; height: 2px;
+      background: var(--bg); border-radius: 2px;
+      transition: background 0.4s, transform 0.45s cubic-bezier(0.34,1.56,0.64,1),
+                  opacity 0.3s, width 0.3s;
+      transform-origin: center;
+    }
+    /* animate to X on open */
+    .rnav-open #right-btn .r-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .rnav-open #right-btn .r-line:nth-child(2) { opacity: 0; width: 0; }
+    .rnav-open #right-btn .r-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* tab bg flips when overlay open */
+    .rnav-open #right-btn { background: var(--bg); }
+    .rnav-open #right-btn .r-line { background: var(--ink); }
+
+    /* right overlay — ink-bleed from middle-right */
+    #right-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: var(--ink);
+      clip-path: circle(0px at calc(100%) 50%);
+      transition: clip-path 0.7s cubic-bezier(0.77,0,0.175,1);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .rnav-open #right-overlay {
+      clip-path: circle(150vmax at calc(100%) 50%);
+      pointer-events: all;
+    }
+
+    /* right nav links */
+    #right-nav-links {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 20px;
+    }
+    .rnav-link {
+      font-family: var(--serif); font-size: clamp(36px,7vw,72px);
+      font-weight: 700; letter-spacing: -0.01em;
+      color: var(--bg); text-decoration: none;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1),
+                  letter-spacing 0.2s;
+      display: block;
+    }
+    .rnav-link:hover { letter-spacing: 0.04em; }
+    .rnav-open .rnav-link:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:0.38s; }
+    .rnav-open .rnav-link:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:0.50s; }
+    .rnav-open .rnav-link:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:0.62s; }
+
+    /* sub-note */
+    .rnav-note {
+      font-family: var(--mono); font-size: 10px; letter-spacing:0.14em;
+      text-transform: uppercase; color: var(--bg); opacity: 0.3;
+      margin-top: 32px; opacity: 0;
+      transition: opacity 0.3s ease 0.7s;
+    }
+    .rnav-open .rnav-note { opacity: 0.35; }
+
+    /* ════════════════════════════════
+       VIDEOBOT WIDGET
+    ════════════════════════════════ */
+    /* ════════════════════════════════
+       VIDEO WIDGET (real video)
+    ════════════════════════════════ */
+    #ec-widget { position: fixed; z-index: 900; bottom: 0; right: 0; }
+
+    /* bubble — looping video preview */
+    #vbot-bubble {
+      position: fixed;
+      bottom: -130px; /* starts off-screen, slides up after 5s */
+      right: 20px;
+      z-index: 901;
+      width: 90px; height: 90px;
+      border-radius: 20%;
+      overflow: hidden;
+      opacity: 0;
+      border: 3px solid var(--accent);
+      cursor: pointer;
+      background: #000;
+      padding: 0;
+      transition: opacity 0.5s ease, bottom 0.5s ease,
+                  border-color 0.5s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    }
+    #vbot-bubble:hover { transform: scale(1.07); }
+    #vbot-bubble video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* pulse ring */
+    #vbot-bubble::after {
+      content: ''; position: absolute; inset: -5px;
+      border-radius: 20%; border: 2px solid var(--accent);
+      opacity: 0; animation: vbotPulse 2.4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes vbotPulse {
+      0%,100%{opacity:0;transform:scale(1)}
+      50%{opacity:0.45;transform:scale(1.1)}
+    }
+    #vbot-bubble.slide-up { bottom: 20px !important; opacity: 1 !important; }
+
+    /* full player panel */
+    #vbot-panel {
+      position: fixed;
+      bottom: 124px; right: 20px;
+      z-index: 902;
+      /* height capped so it never overflows — width derived to keep 9:16 */
+      max-height: calc(100dvh - 160px);
+      width: min(280px, calc(100vw - 40px));
+      aspect-ratio: 9/16;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.55);
+      transform: scale(0.85) translateY(16px);
+      transform-origin: bottom right;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1),
+                  opacity 0.35s ease;
+      display: none;
+    }
+    #vbot-panel.open {
+      display: block;
+      pointer-events: all;
+    }
+    #vbot-panel.open.animate-in {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+    #vbot-panel video {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    #vbot-close {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(0,0,0,0.55); border: none; cursor: pointer;
+      width: 32px; height: 32px; border-radius: 50%;
+      color: #fff; font-size: 18px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+      z-index: 1;
+    }
+    #vbot-close:hover { background: rgba(0,0,0,0.8); }
+
+    /* ════════════════════════════════
+       FIXED TOP BAR — right nav + vbot always visible
+    ════════════════════════════════ */
+    /* The lang bar already spans full top — right-btn sits inside it visually
+       via fixed positioning, so no extra bar needed */
+    /* gear sits flush inside lang bar height, lang-bar needs left clearance only */
+    #lang-bar { padding-left: 58px; padding-right: 24px; }
+
+
+    /* ════════════════════════════════
+       HERO PHOTO — 2026 animations
+    ════════════════════════════════ */
+    .hero-photo-wrap {
+      position: relative;
+      width: 100%;
+      margin-bottom: 28px;
+      overflow: hidden;
+      /* 2:3 aspect ratio container */
+      aspect-ratio: 2 / 3;
+    }
+    .hero-photo {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center top;
+      /* start hidden for animation */
+      opacity: 0;
+    }
+
+    /* ── per-theme show/hide ── */
+    .hero-photo-magazine    { display: block; }
+    .hero-photo-atmospheric { display: none;  }
+    .hero-photo-brutalist   { display: none;  }
+    .hero-photo-metal-img   { display: none;  }
+    [data-theme="atmospheric"] .hero-photo-magazine    { display: none;  }
+    [data-theme="atmospheric"] .hero-photo-atmospheric { display: block; }
+    [data-theme="brutalist"]   .hero-photo-magazine    { display: none;  }
+    [data-theme="brutalist"]   .hero-photo-brutalist   { display: block; }
+    [data-theme="metal"]       .hero-photo-magazine    { display: none;  }
+    [data-theme="metal"]       .hero-photo-metal-img   { display: block; }
+
+    /* ── Magazine: clean vertical scan reveal ── */
+    [data-theme="magazine"] .hero-photo {
+      animation: photoScanReveal 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.2s;
+    }
+    @keyframes photoScanReveal {
+      0%   { opacity:0; clip-path: inset(0 0 100% 0); transform: scale(1.04); }
+      100% { opacity:1; clip-path: inset(0 0 0% 0);   transform: scale(1); }
+    }
+
+    /* ── Atmospheric: slow fade in with soft bloom ── */
+    [data-theme="atmospheric"] .hero-photo {
+      animation: photoBloom 1.4s ease-out forwards 0.2s;
+    }
+    @keyframes photoBloom {
+      0%   { opacity:0; filter: brightness(2) blur(12px) saturate(0.3); transform: scale(1.06); }
+      40%  { opacity:0.7; filter: brightness(1.3) blur(4px) saturate(0.7); }
+      100% { opacity:1; filter: brightness(1) blur(0) saturate(1); transform: scale(1); }
+    }
+
+    /* ── Brutalist: hard glitch slice reveal ── */
+    [data-theme="brutalist"] .hero-photo {
+      animation: photoGlitch 0.6s steps(1) forwards 0.1s;
+    }
+    @keyframes photoGlitch {
+      0%  { opacity:0; clip-path: inset(0 0 100% 0); transform: translateX(0); }
+      15% { opacity:1; clip-path: inset(0 0 75% 0);  transform: translateX(-4px); }
+      30% { clip-path: inset(0 0 75% 0);  transform: translateX(4px); }
+      45% { clip-path: inset(0 0 50% 0);  transform: translateX(-2px); }
+      55% { clip-path: inset(0 0 50% 0);  transform: translateX(2px); }
+      70% { clip-path: inset(0 0 25% 0);  transform: translateX(0); }
+      85% { clip-path: inset(0 0 10% 0);  transform: translateX(-1px); }
+      100%{ opacity:1; clip-path: inset(0 0 0 0);    transform: translateX(0); }
+    }
+
+    /* ── Metal: same flashlight mask bloom as the logo ── */
+    [data-theme="metal"] .hero-photo {
+      --photo-spread: 1%;
+      --photo-fade: 2%;
+      -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black var(--photo-spread), transparent calc(var(--photo-spread) + var(--photo-fade)));
+      mask-image: radial-gradient(ellipse at 50% 30%, black var(--photo-spread), transparent calc(var(--photo-spread) + var(--photo-fade)));
+      animation: photoMetalReveal 0.85s ease-out forwards 0.3s;
+    }
+    @keyframes photoMetalReveal {
+      0%   { opacity:0; --photo-spread:1%;  --photo-fade:2%;  filter:brightness(2) blur(3px); }
+      10%  { opacity:1; --photo-spread:12%; --photo-fade:20%; filter:brightness(1.7) blur(2px); }
+      30%  {            --photo-spread:30%; --photo-fade:28%; filter:brightness(1.4) blur(1px); }
+      55%  {            --photo-spread:52%; --photo-fade:30%; filter:brightness(1.2) blur(0.4px); }
+      80%  {            --photo-spread:72%; --photo-fade:24%; filter:brightness(1.1); }
+      100% { opacity:1; --photo-spread:90%; --photo-fade:10%; filter:brightness(1) contrast(1.05); }
+    }
+
+    /* hover: subtle parallax lift on all themes */
+    .hero-photo-wrap:hover .hero-photo {
+      transform: scale(1.03);
+      transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    /* ════════════════════════════════
+       PROJECTS SECTION
+    ════════════════════════════════ */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 48px;
+      border: var(--border-w) solid var(--border-c);
+      transition: border-color 0.5s;
+    }
+    @media(max-width: 700px) { .projects-grid { grid-template-columns: 1fr; } }
+
+    .proj-card {
+      display: flex;
+      flex-direction: column;
+      border-right: var(--border-w) solid var(--border-c);
+      transition: background 0.2s, border-color 0.5s;
+      overflow: hidden;
+    }
+    .proj-card:last-child { border-right: none; }
+    .proj-card:hover { background: var(--bg-alt); }
+
+    /* placeholder logo area */
+    .proj-logo-wrap {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: var(--border-w) solid var(--border-c);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.5s;
+    }
+    /* unique bg per project */
+    .proj-card-farscope .proj-logo-wrap  { background: #0a0a14; }
+    .proj-card-akki     .proj-logo-wrap  { background: #0f140a; }
+    .proj-card-store    .proj-logo-wrap  { background: #140a0a; }
+
+    /* geometric placeholder mark */
+    .proj-logo-mark {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .proj-logo-text {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1;
+      transition: font-family 0.4s;
+    }
+    .proj-card-farscope .proj-logo-text { color: #4a9eff; }
+    .proj-card-akki     .proj-logo-text { color: #4aff8a; }
+    .proj-card-store    .proj-logo-text { color: #ff7a4a; }
+
+    /* subtle grid lines behind mark */
+    .proj-logo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* status badge */
+    .proj-status {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 2px;
+    }
+    .proj-status-beta { background: rgba(255,200,0,0.15); color: #ffc800; border: 1px solid rgba(255,200,0,0.3); }
+    .proj-status-live { background: rgba(74,255,138,0.12); color: #4aff8a; border: 1px solid rgba(74,255,138,0.3); }
+
+    .proj-body {
+      padding: 28px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 10px;
+    }
+    .proj-type {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      transition: color 0.5s;
+    }
+    .proj-name {
+      font-family: var(--serif);
+      font-size: clamp(22px, 2.8vw, 32px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--ink);
+      transition: font-family 0.4s, color 0.5s;
+    }
+    [data-theme="metal"] .proj-name { text-transform: uppercase; font-weight: 400; }
+    [data-theme="brutalist"] .proj-name { text-transform: uppercase; }
+    .proj-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: none;
+      margin: 0;
+      transition: color 0.5s;
+    }
+    .proj-offer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--rule);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      transition: border-color 0.5s, color 0.5s;
+    }
+
+    /* when logo image is ready, swap in like this:
+       .proj-logo-img { width:100%; height:100%; object-fit:contain; padding:20px; } */
+
+    /* ════════════════════════════════
+       PORTFOLIO PAGE
+    ════════════════════════════════ */
+    .featured-video {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      background: #000;
+      margin-top: 32px;
+      border: var(--border-w) solid var(--border-c);
+      transition: border-color 0.5s;
+    }
+    .featured-video iframe,
+    .featured-video video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: 0;
+      object-fit: cover;
+    }
+    .featured-meta {
+      margin-top: 28px;
+      max-width: 720px;
+    }
+    .featured-tags {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      transition: color 0.5s;
+    }
+    .featured-desc {
+      font-family: var(--body);
+      font-size: clamp(15px, 1.6vw, 18px);
+      line-height: 1.7;
+      color: var(--ink);
+      max-width: 680px;
+      transition: color 0.5s;
+    }
+
+    /* Works grid (2-column) */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 56px 40px;
+      margin-top: 48px;
+    }
+    .works-grid-single { grid-template-columns: 1fr; max-width: 880px; }
+    @media(max-width: 760px) {
+      .works-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    .work-card {
+      display: flex;
+      flex-direction: column;
+    }
+    .work-video {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      background: #000;
+      border: var(--border-w) solid var(--border-c);
+      transition: border-color 0.5s, transform 0.4s ease;
+    }
+    .work-video iframe,
+    .work-video video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+    .work-video:hover { transform: translateY(-4px); }
+    .work-meta { padding-top: 18px; }
+    .work-title {
+      font-family: var(--serif);
+      font-size: clamp(20px, 2.4vw, 26px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 8px;
+      transition: font-family 0.4s, color 0.5s;
+    }
+    [data-theme="metal"] .work-title { font-weight: 400; text-transform: uppercase; letter-spacing: 0.02em; }
+    [data-theme="brutalist"] .work-title { text-transform: uppercase; letter-spacing: -0.01em; }
+    .work-tags {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+      transition: color 0.5s;
+    }
+    .work-context, .featured-context {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 12px;
+      max-width: 680px;
+      transition: color 0.5s;
+      font-style: italic;
+    }
+    .featured-context { font-size: 13px; margin-bottom: 16px; }
+
+    /* Best fit section */
+    .best-fit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px 32px;
+      margin-top: 32px;
+      max-width: 760px;
+    }
+    @media(max-width: 600px) { .best-fit-grid { grid-template-columns: 1fr; } }
+    .best-fit-item {
+      font-family: var(--serif);
+      font-size: clamp(17px, 2vw, 22px);
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--ink);
+      padding: 14px 0;
+      border-top: 1px solid var(--rule);
+      transition: font-family 0.4s, color 0.5s, border-color 0.5s, padding-left 0.25s;
+      cursor: default;
+    }
+    [data-theme="metal"] .best-fit-item { font-weight: 400; text-transform: uppercase; letter-spacing: 0.02em; }
+    [data-theme="brutalist"] .best-fit-item { text-transform: uppercase; }
+    .best-fit-item::before {
+      content: '→';
+      display: inline-block;
+      margin-right: 14px;
+      color: var(--accent);
+      transition: transform 0.25s, color 0.5s;
+    }
+    .best-fit-item:hover { padding-left: 8px; }
+    .best-fit-item:hover::before { transform: translateX(4px); }
+
+    /* Hide video bubble on portfolio page — work IS the showreel here */
+    body.portfolio-page #vbot-bubble,
+    body.portfolio-page #vbot-panel { display: none !important; }
+
+    .work-desc {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: none;
+      margin: 0;
+      transition: color 0.5s;
+    }
+
+    /* Social grid (3-column for vertical reels) */
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 48px;
+    }
+    @media(max-width: 900px) { .social-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media(max-width: 600px) { .social-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; } }
+    .social-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .social-tag {
+      text-align: left;
+      margin: 0;
+    }
+    /* Override Instagram blockquote stretch */
+    .social-card .instagram-media {
+      margin: 0 !important;
+      max-width: none !important;
+      min-width: 0 !important;
+    }
+
+    /* Portfolio hero — same h1 styling as homepage so HEC/TOR... layout works */
+    .portfolio-hero-spread { min-height: 60vh; }
+
+    /* Enable smooth interpolation of mask custom properties */
+    @property --photo-spread {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 1%;
+    }
+    @property --photo-fade {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 2%;
+    }
+    @property --reveal-spread {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 1%;
+    }
+    @property --reveal-fade {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 2%;
+    }
+  </style>
+
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet" />
+</head>
+<body class="portfolio-page">
+
+<!-- ══ GEAR BUTTON (theme switcher) ══ -->
+<button id="gear-btn" aria-label="Switch theme" onclick="toggleMenu()">
+  <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Gear shape: circle + 8 teeth -->
+    <circle class="gear-circle" cx="13" cy="13" r="4.5"/>
+    <!-- teeth as small rectangles around the circle -->
+    <path class="gear-tooth" d="M13 2v3M13 21v3M2 13h3M21 13h3M5.05 5.05l2.12 2.12M18.83 18.83l2.12 2.12M5.05 20.95l2.12-2.12M18.83 7.17l2.12-2.12"/>
+  </svg>
+</button>
+
+<!-- ══ THEME SWITCHER CARD ══ -->
+<div id="menu-overlay">
+  <div id="menu-divider"></div>
+  <div id="menu-themes">
+    <button class="menu-theme-btn active-theme" data-t="magazine"    onclick="selectTheme('magazine')">Magazine</button>
+    <button class="menu-theme-btn"              data-t="atmospheric" onclick="selectTheme('atmospheric')">Atmospheric</button>
+    <button class="menu-theme-btn"              data-t="brutalist"   onclick="selectTheme('brutalist')">Brutalist</button>
+    <button class="menu-theme-btn"              data-t="metal"       onclick="selectTheme('metal')">Death Metal</button>
+  </div>
+</div>
+
+<!-- ══ RIGHT NAV BUTTON ══ -->
+<button id="right-btn" aria-label="Navigation" onclick="toggleRNav()">
+  <span class="r-line"></span>
+  <span class="r-line"></span>
+  <span class="r-line"></span>
+</button>
+
+<!-- ══ RIGHT NAV OVERLAY (ink-bleeds from top-right) ══ -->
+<div id="right-overlay">
+  <nav id="right-nav-links">
+    <a class="rnav-link" href="/portfolio" onclick="toggleRNav()">Portfolio</a>
+    <a class="rnav-link" href="https://www.youtube.com/@hectorextrada" target="_blank" rel="noopener" onclick="toggleRNav()">YouTube</a>
+    <a class="rnav-link" href="#about" onclick="toggleRNav()">Bio</a>
+  </nav>
+  </div>
+</div>
+
+<!-- ══ VIDEOBOT BUBBLE ══ -->
+<!-- ══ VIDEO WIDGET ══ -->
+<button id="vbot-bubble" aria-label="Watch Hector's introduction">
+  <video loop autoplay muted playsinline>
+    <source src="https://raw.githubusercontent.com/ElWarrenV/-ec-/main/Hector%20Introduction%20withc%20xex2.mp4" type="video/mp4">
+  </video>
+</button>
+
+<div id="vbot-panel">
+  <button id="vbot-close" aria-label="Close video">✕</button>
+  <video id="vbot-player" controls autoplay playsinline>
+    <source src="https://raw.githubusercontent.com/ElWarrenV/-ec-/main/Hector%20Introduction%20withc%20xex2.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- ══ LANG BAR ══ -->
+<div id="lang-bar">
+  <button class="lang-btn active" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" onclick="setLang('fi')">FI</button>
+  <button class="lang-btn" onclick="setLang('es')">ES</button>
+  <button class="lang-btn" onclick="setLang('fr')">FR</button>
+</div>
+
+<main>
+  <!-- ════ MASTHEAD ════ -->
+  <div id="masthead">
+    <div class="hero-orb orb-1"></div>
+    <div class="hero-orb orb-2"></div>
+    <div class="hero-orb orb-3"></div>
+    <div class="hero-orb orb-metal"></div>
+    <div class="masthead-inner">
+      <div class="issue-line">
+        <span class="issue-text">Helsinki, Finland · Selected Work</span>
+        <nav class="issue-nav">
+          <a href="/"><span data-lang="en" class="active">← Home</span><span data-lang="fi">← Etusivu</span><span data-lang="es">← Inicio</span><span data-lang="fr">← Accueil</span></a>
+          <a href="#brand"><span data-lang="en" class="active">Brand</span><span data-lang="fi">Brändi</span><span data-lang="es">Marca</span><span data-lang="fr">Marque</span></a>
+          <a href="#docs"><span data-lang="en" class="active">Docs</span><span data-lang="fi">Dokkarit</span><span data-lang="es">Docs</span><span data-lang="fr">Docs</span></a>
+          <a href="#narrative"><span data-lang="en" class="active">Narrative</span><span data-lang="fi">Tarinat</span><span data-lang="es">Narrativo</span><span data-lang="fr">Narratif</span></a>
+          <a href="#social"><span data-lang="en" class="active">Social</span><span data-lang="fi">Some</span><span data-lang="es">Social</span><span data-lang="fr">Social</span></a>
+        </nav>
+      </div>
+      <div class="hero-spread portfolio-hero-spread">
+        <div class="hero-left">
+          <div>
+            <p class="kicker">
+              <span data-lang="en" class="active">The Portfolio · 2022–2026</span>
+              <span data-lang="fi">Portfolio · 2022–2026</span>
+              <span data-lang="es">El Portafolio · 2022–2026</span>
+              <span data-lang="fr">Le Portfolio · 2022–2026</span>
+            </p>
+            <div class="h1-text-lines">
+              <h1>
+                <span class="h1-line"><span class="h1-line-inner">SE</span></span>
+                <span class="h1-line"><span class="h1-line-inner">LEC</span></span>
+                <span class="h1-line"><span class="h1-line-inner"><em class="atmo-name">TED</em></span></span>
+                <span class="h1-line"><span class="h1-line-inner"><em class="atmo-name">WORK</em></span></span>
+              </h1>
+            </div>
+            <div class="metal-logo">
+              <div class="metal-logo-img-wrap">
+                <img class="metal-logo-img" id="metal-logo-img" src="https://miinkbmpfzsukwqragxh.supabase.co/storage/v1/object/public/portfolio-images/metal-logo.webp" alt="Hector Estrada"/>
+              </div>
+            </div>
+          </div>
+          <p class="hero-byline">
+            <span data-lang="en" class="active">100+ projects · 20+ brands · Helsinki → worldwide</span>
+            <span data-lang="fi">100+ projektia · 20+ brändiä · Helsinki → maailmalle</span>
+            <span data-lang="es">100+ proyectos · 20+ marcas · Helsinki → mundial</span>
+            <span data-lang="fr">100+ projets · 20+ marques · Helsinki → mondial</span>
+          </p>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-right">
+          <p class="hero-deck">
+            <span data-lang="en" class="active">Director and creative operator for brands, artists, and founders building cinematic content. Brand films, mini-docs, music videos, narrative shorts, and social campaigns — Helsinki to anywhere.</span>
+            <span data-lang="fi">Ohjaaja ja luova kumppani brändeille, artisteille ja perustajille, jotka rakentavat elokuvallista sisältöä. Brändifilmejä, lyhytdokumentteja, musiikkivideoita, lyhytelokuvia ja somekampanjoita — Helsingistä mihin tahansa.</span>
+            <span data-lang="es">Director y operador creativo para marcas, artistas y fundadores que construyen contenido cinematográfico. Films de marca, mini-documentales, videoclips, cortos narrativos y campañas sociales — de Helsinki a donde sea.</span>
+            <span data-lang="fr">Réalisateur et opérateur créatif pour les marques, artistes et fondateurs qui créent du contenu cinématographique. Films de marque, mini-docs, clips, courts narratifs et campagnes sociales — d'Helsinki à n'importe où.</span>
+          </p>
+          <div class="hero-cta">
+            <a href="#featured" class="btn-primary"><span data-lang="en" class="active">Start watching</span><span data-lang="fi">Aloita katselu</span><span data-lang="es">Empezar a ver</span><span data-lang="fr">Commencer à regarder</span></a>
+            <a href="/#hire" class="btn-secondary"><span data-lang="en" class="active">Work with me</span><span data-lang="fi">Tee yhteistyötä</span><span data-lang="es">Trabajemos juntos</span><span data-lang="fr">Travaillons ensemble</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ FEATURED · SUPER BARIO ════ -->
+  <div id="featured" class="page draw-rule">
+    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Featured</span><span data-lang="fi">Esillä</span><span data-lang="es">Destacado</span><span data-lang="fr">À la une</span></span></p>
+    <h2 class="split-heading">Super Bario</h2>
+    <div class="featured-video">
+      <iframe src="https://www.youtube-nocookie.com/embed/pzn90ubt4Qw?rel=0" title="Super Bario" allowfullscreen frameborder="0"></iframe>
+    </div>
+    <div class="featured-meta fade-up" data-delay="100">
+      <p class="featured-tags">Role: Director · DP · Editor · 2025</p>
+      <p class="featured-context">
+        <span data-lang="en" class="active">Made for: brand awareness + venue traffic across YouTube and short-form social.</span>
+        <span data-lang="fi">Tehty: brändin tunnettuuteen ja kävijämäärän kasvuun YouTubessa ja lyhytsomessa.</span>
+        <span data-lang="es">Hecho para: notoriedad de marca y tráfico al local en YouTube y short-form.</span>
+        <span data-lang="fr">Fait pour : notoriété de marque et fréquentation du lieu sur YouTube et formats courts.</span>
+      </p>
+      <p class="featured-desc">
+        <span data-lang="en" class="active">UGC-style content for a Helsinki gaming bar — full-length YouTube vlog plus optimized short-form versions for social platforms. Shooting, editing, platform-specific versioning. Bringing authentic venue energy to different audiences across channels.</span>
+        <span data-lang="fi">UGC-tyylistä sisältöä helsinkiläiselle pelibaarille — pitkä YouTube-vlogi ja optimoituja lyhytversioita someen. Kuvaus, editointi, alustakohtainen versiointi. Aitoa baarin tunnelmaa eri yleisöille eri kanavissa.</span>
+        <span data-lang="es">Contenido UGC para un gaming bar de Helsinki — vlog completo de YouTube y versiones cortas optimizadas para redes. Rodaje, edición, versiones por plataforma.</span>
+        <span data-lang="fr">Contenu UGC pour un bar gaming à Helsinki — vlog YouTube long format et versions courtes pour les réseaux. Tournage, montage, versions par plateforme.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ════ BRAND & COMMERCIAL ════ -->
+  <div id="brand" class="page draw-rule">
+    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Brand & Commercial</span><span data-lang="fi">Brändi ja kaupallinen</span><span data-lang="es">Marca y Comercial</span><span data-lang="fr">Marque & Commercial</span></span></p>
+    <h2 class="split-heading"><span data-lang="en" class="active">For brands</span><span data-lang="fi">Brändeille</span><span data-lang="es">Para marcas</span><span data-lang="fr">Pour les marques</span></h2>
+    <div class="works-grid">
+      <article class="work-card assemble" data-delay="0">
+        <div class="work-video">
+          <video controls playsinline preload="metadata">
+            <source src="https://miinkbmpfzsukwqragxh.supabase.co/storage/v1/object/public/portfolio-images/foodora-mexican.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="work-meta">
+          <h3 class="work-title">Foodora · Mexican Restaurant</h3>
+          <p class="work-tags">Role: Director · Producer · DP · Editor</p>
+          <p class="work-context"><span data-lang="en" class="active">Made for: brand campaign across paid + organic social.</span><span data-lang="fi">Tehty: brändikampanjaan maksetussa ja orgaanisessa somessa.</span><span data-lang="es">Hecho para: campaña de marca en social pago y orgánico.</span><span data-lang="fr">Fait pour : campagne de marque en social payant et organique.</span></p>
+          <p class="work-desc">
+            <span data-lang="en" class="active">Produced and directed for Foodora — full production from concept to delivery. Lighting, shooting, editing, platform optimisation.</span>
+            <span data-lang="fi">Tuottaja ja ohjaaja Foodoralle — koko tuotanto konseptista toimitukseen. Valaisu, kuvaus, editointi, alustaoptimointi.</span>
+            <span data-lang="es">Producción y dirección para Foodora — del concepto a la entrega.</span>
+            <span data-lang="fr">Production et réalisation pour Foodora — du concept à la livraison.</span>
+          </p>
+        </div>
+      </article>
+      <article class="work-card assemble" data-delay="150">
+        <div class="work-video">
+          <iframe src="https://www.youtube-nocookie.com/embed/3iaXktAvGx0?rel=0" title="Siili Solutions" allowfullscreen frameborder="0"></iframe>
+        </div>
+        <div class="work-meta">
+          <h3 class="work-title">Siili Solutions · Mini-Doc</h3>
+          <p class="work-tags">Role: Director · DP · Editor</p>
+          <p class="work-context"><span data-lang="en" class="active">Made for: corporate brand storytelling — Finnish tech audience.</span><span data-lang="fi">Tehty: yrityksen brändikerrontaan — suomalaiselle tech-yleisölle.</span><span data-lang="es">Hecho para: storytelling corporativo de marca para audiencia tech finlandesa.</span><span data-lang="fr">Fait pour : storytelling de marque corporate, audience tech finlandaise.</span></p>
+          <p class="work-desc">
+            <span data-lang="en" class="active">Directed and produced a mini-documentary for Siili Solutions. Cinematography, interviews, lighting design, post-production — branded content that connects.</span>
+            <span data-lang="fi">Ohjasin ja tuotin lyhytdokumentin Siili Solutionsille. Kuvaus, haastattelut, valaisu, jälkituotanto.</span>
+            <span data-lang="es">Dirigí y produje un mini-documental para Siili Solutions.</span>
+            <span data-lang="fr">Réalisé et produit un mini-documentaire pour Siili Solutions.</span>
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- ════ DOCS & LONG-FORM ════ -->
+  <div id="docs" class="page draw-rule">
+    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Docs & Long-form</span><span data-lang="fi">Dokumentit ja pitkä formaatti</span><span data-lang="es">Documentales y largo formato</span><span data-lang="fr">Documentaires & Long-format</span></span></p>
+    <h2 class="split-heading"><span data-lang="en" class="active">Stories that take time</span><span data-lang="fi">Tarinoita jotka vaativat aikaa</span><span data-lang="es">Historias que toman tiempo</span><span data-lang="fr">Des histoires qui prennent leur temps</span></h2>
+    <div class="works-grid">
+      <article class="work-card assemble" data-delay="0">
+        <div class="work-video">
+          <iframe src="https://www.youtube-nocookie.com/embed/HvbQ19a7ntY?rel=0" title="Formlös Podcast" allowfullscreen frameborder="0"></iframe>
+        </div>
+        <div class="work-meta">
+          <h3 class="work-title">Formlös · Podcast</h3>
+          <p class="work-tags">Role: DP · Multi-cam · Post-production</p>
+          <p class="work-context"><span data-lang="en" class="active">Made for: YouTube long-form + social cutdowns from one shoot.</span><span data-lang="fi">Tehty: pitkä YouTube-versio ja somelyhennelmät yhdestä kuvauksesta.</span><span data-lang="es">Hecho para: YouTube largo + cortes sociales desde una sola sesión.</span><span data-lang="fr">Fait pour : YouTube long format + extraits sociaux d'un seul tournage.</span></p>
+          <p class="work-desc">
+            <span data-lang="en" class="active">Video content for a podcast — camera, lighting, audio capture, post-production. Visual assets for YouTube and social.</span>
+            <span data-lang="fi">Videosisältöä podcastille — kuvaus, valaisu, äänenkaappaus, jälkituotanto.</span>
+            <span data-lang="es">Contenido de video para un podcast — cámara, iluminación, audio, postproducción.</span>
+            <span data-lang="fr">Contenu vidéo pour un podcast — caméra, éclairage, audio, post-production.</span>
+          </p>
+        </div>
+      </article>
+      <article class="work-card assemble" data-delay="150">
+        <div class="work-video">
+          <video controls playsinline preload="metadata">
+            <source src="https://miinkbmpfzsukwqragxh.supabase.co/storage/v1/object/public/portfolio-images/yemeni-food.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="work-meta">
+          <h3 class="work-title">Yemeni Food · Mini-Doc</h3>
+          <p class="work-tags">Role: Director · DP · Editor</p>
+          <p class="work-context"><span data-lang="en" class="active">Made for: cultural storytelling — observational, slow, human-centered.</span><span data-lang="fi">Tehty: kulttuurilliseen tarinankerrontaan — havainnoivasti, hitaasti, ihmislähtöisesti.</span><span data-lang="es">Hecho para: storytelling cultural — observacional, lento, centrado en lo humano.</span><span data-lang="fr">Fait pour : storytelling culturel — observation, lenteur, humain au centre.</span></p>
+          <p class="work-desc">
+            <span data-lang="en" class="active">A short documentary on Yemeni cuisine — culture, craft, and a Helsinki kitchen. Slow storytelling, observational camera.</span>
+            <span data-lang="fi">Lyhyt dokumentti jemeniläisestä keittiöstä — kulttuuria, käsityötä ja helsinkiläinen keittiö. Hidasta tarinankerrontaa.</span>
+            <span data-lang="es">Un breve documental sobre la cocina yemení — cultura, oficio y una cocina en Helsinki.</span>
+            <span data-lang="fr">Un court documentaire sur la cuisine yéménite — culture, savoir-faire et une cuisine à Helsinki.</span>
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- ════ NARRATIVE ════ -->
+  <div id="narrative" class="page draw-rule">
+    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Narrative</span><span data-lang="fi">Tarinaelokuvat</span><span data-lang="es">Narrativo</span><span data-lang="fr">Narratif</span></span></p>
+    <h2 class="split-heading"><span data-lang="en" class="active">Made-up worlds</span><span data-lang="fi">Kuvitellut maailmat</span><span data-lang="es">Mundos inventados</span><span data-lang="fr">Mondes imaginés</span></h2>
+    <div class="works-grid works-grid-single">
+      <article class="work-card assemble" data-delay="0">
+        <div class="work-video">
+          <iframe src="https://player.vimeo.com/video/739946659?dnt=1" title="Ghost" allowfullscreen frameborder="0"></iframe>
+        </div>
+        <div class="work-meta">
+          <h3 class="work-title">Ghost</h3>
+          <p class="work-tags">Role: Director · DP · 2022</p>
+          <p class="work-context"><span data-lang="en" class="active">Made for: festival circuit + a personal exploration of restraint and atmosphere.</span><span data-lang="fi">Tehty: festivaalikiertueeseen ja oma tutkielma hillinnästä ja tunnelmasta.</span><span data-lang="es">Hecho para: circuito de festivales y una exploración personal de contención y atmósfera.</span><span data-lang="fr">Fait pour : festivals + exploration personnelle de la retenue et de l'atmosphère.</span></p>
+          <p class="work-desc">
+            <span data-lang="en" class="active">A narrative short. Atmosphere, restraint, and what's left unsaid.</span>
+            <span data-lang="fi">Lyhytelokuva. Tunnelmaa, hillintää ja sanomatta jätettyä.</span>
+            <span data-lang="es">Un corto narrativo. Atmósfera, contención y lo no dicho.</span>
+            <span data-lang="fr">Un court narratif. Atmosphère, retenue et le non-dit.</span>
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- ════ SOCIAL ════ -->
+  <div id="social" class="page draw-rule">
+    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Social</span><span data-lang="fi">Some</span><span data-lang="es">Social</span><span data-lang="fr">Social</span></span></p>
+    <h2 class="split-heading"><span data-lang="en" class="active">Made for the feed</span><span data-lang="fi">Tehty feedille</span><span data-lang="es">Hecho para el feed</span><span data-lang="fr">Fait pour le feed</span></h2>
+    <div class="social-grid">
+      <article class="social-card assemble" data-delay="0">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DH6bJh4MMHE/" data-instgrm-version="14" style="background:#FFF;border:0;border-radius:3px;margin: 1px;max-width:540px;min-width:326px;padding:0;width:100%"></blockquote>
+        <p class="work-tags social-tag">Brand reel</p>
+      </article>
+      <article class="social-card assemble" data-delay="120">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DBJqeEetVI3/" data-instgrm-version="14" style="background:#FFF;border:0;border-radius:3px;margin: 1px;max-width:540px;min-width:326px;padding:0;width:100%"></blockquote>
+        <p class="work-tags social-tag">Podcast cutdown</p>
+      </article>
+      <article class="social-card assemble" data-delay="240">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/C4QZnH4tam_/" data-instgrm-version="14" style="background:#FFF;border:0;border-radius:3px;margin: 1px;max-width:540px;min-width:326px;padding:0;width:100%"></blockquote>
+        <p class="work-tags social-tag">Personal · Estrada Creative</p>
+      </article>
+    </div>
+    <script async src="https://www.instagram.com/embed.js"></script>
+  </div>
+
+  <!-- ════ BEST FIT ════ -->
+  <div id="best-fit" class="page draw-rule">
+    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Best fit</span><span data-lang="fi">Sopii parhaiten</span><span data-lang="es">Buen encaje</span><span data-lang="fr">Meilleur fit</span></span></p>
+    <h2 class="split-heading"><span data-lang="en" class="active">What I love working on</span><span data-lang="fi">Mitä rakastan tehdä</span><span data-lang="es">Lo que amo hacer</span><span data-lang="fr">Ce que j'aime faire</span></h2>
+    <div class="best-fit-grid">
+      <div class="best-fit-item assemble" data-delay="0"><span data-lang="en" class="active">Brand documentaries</span><span data-lang="fi">Brändidokumentit</span><span data-lang="es">Documentales de marca</span><span data-lang="fr">Documentaires de marque</span></div>
+      <div class="best-fit-item assemble" data-delay="60"><span data-lang="en" class="active">Music videos</span><span data-lang="fi">Musiikkivideot</span><span data-lang="es">Videoclips</span><span data-lang="fr">Clips musicaux</span></div>
+      <div class="best-fit-item assemble" data-delay="120"><span data-lang="en" class="active">Founder & artist stories</span><span data-lang="fi">Perustajien ja artistien tarinat</span><span data-lang="es">Historias de fundadores y artistas</span><span data-lang="fr">Histoires de fondateurs et d'artistes</span></div>
+      <div class="best-fit-item assemble" data-delay="180"><span data-lang="en" class="active">Social-first campaigns</span><span data-lang="fi">Some-edellä rakennetut kampanjat</span><span data-lang="es">Campañas social-first</span><span data-lang="fr">Campagnes social-first</span></div>
+      <div class="best-fit-item assemble" data-delay="240"><span data-lang="en" class="active">Fashion & editorial films</span><span data-lang="fi">Muoti- ja editoriaalifilmit</span><span data-lang="es">Films de moda y editoriales</span><span data-lang="fr">Films mode & éditoriaux</span></div>
+      <div class="best-fit-item assemble" data-delay="300"><span data-lang="en" class="active">Experimental visual storytelling</span><span data-lang="fi">Kokeellinen visuaalinen tarinankerronta</span><span data-lang="es">Narrativa visual experimental</span><span data-lang="fr">Narration visuelle expérimentale</span></div>
+    </div>
+  </div>
+
+  <!-- ════ CTA STRIP ════ -->
+  <div id="cta-strip" class="page draw-rule">
+    <p class="col-label"><span class="col-label-text"><span data-lang="en" class="active">Next</span><span data-lang="fi">Seuraavaksi</span><span data-lang="es">Siguiente</span><span data-lang="fr">Ensuite</span></span></p>
+    <h2 class="split-heading"><span data-lang="en" class="active">Got an idea?</span><span data-lang="fi">Onko sinulla idea?</span><span data-lang="es">¿Tienes una idea?</span><span data-lang="fr">Vous avez une idée ?</span></h2>
+    <p class="fade-up" data-delay="100"><span data-lang="en" class="active">No contact forms. No automated replies. Send me a real email and I'll respond within 24 hours.</span><span data-lang="fi">Ei lomakkeita. Ei automaattivastauksia. Lähetä oikea sähköposti — vastaan 24 tunnin sisällä.</span><span data-lang="es">Sin formularios. Sin respuestas automáticas. Envíame un email real y responderé en 24 horas.</span><span data-lang="fr">Pas de formulaire. Pas de réponses automatiques. Envoyez un vrai email et je réponds sous 24 heures.</span></p>
+    <p class="contact-email assemble" data-delay="220"><a href="mailto:hektorestrada@protonmail.com">hektorestrada@protonmail.com</a></p>
+  </div>
+</main>
+
+<footer>
+  <span>© 2026 Héctor Estrada</span>
+  <span>Helsinki, Finland</span>
+  <span><a href="https://www.youtube.com/@hectorextrada" target="_blank" rel="noopener">YouTube ↗</a></span>
+</footer>
+
+<script>
+  /* ══ ANIMATION SELECTORS ══ */
+  const animSelectors = ['.draw-rule','.col-label','.split-heading','.fade-up','.assemble','.slide-left','.slide-right','.flip-up','.reel-wrap'];
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      setTimeout(() => el.classList.add('built'), parseInt(el.dataset.delay||0));
+      observer.unobserve(el);
+    });
+  }, { threshold:0.08, rootMargin:'0px 0px -40px 0px' });
+
+  function splitHeadings() {
+    document.querySelectorAll('.split-heading').forEach(h => {
+      const active = h.querySelector('[data-lang].active');
+      if (!active) return;
+      // Split by word, animate word-by-word to avoid mid-word breaks
+      const words = active.textContent.split(' ');
+      let html = '';
+      let charIdx = 0;
+      words.forEach((word, wi) => {
+        // Wrap each word in a nowrap span so it never breaks mid-word
+        html += `<span style="display:inline-block;white-space:nowrap;">`;
+        [...word].forEach(ch => {
+          html += `<span class="char" style="transition-delay:${charIdx * 36}ms">${ch}</span>`;
+          charIdx++;
+        });
+        html += `</span>`;
+        if (wi < words.length - 1) {
+          html += `<span class="char space"> </span>`;
+        }
+      });
+      active.innerHTML = html;
+    });
+  }
+
+  function observeAll() {
+    document.querySelectorAll(animSelectors.join(',')).forEach(el => observer.observe(el));
+  }
+
+  function resetAnimations() {
+    document.querySelectorAll(animSelectors.join(',')).forEach(el => {
+      el.classList.remove('built'); observer.observe(el);
+    });
+    splitHeadings();
+  }
+
+  function triggerVisible() {
+    document.querySelectorAll(animSelectors.join(',')).forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.92) {
+        setTimeout(() => el.classList.add('built'), parseInt(el.dataset.delay||0));
+        observer.unobserve(el);
+      }
+    });
+  }
+
+
+  /* ══ GEAR MENU (theme switcher card) ══ */
+  let menuOpen = false;
+
+  function toggleMenu() {
+    if (rNavOpen) toggleRNav();
+    menuOpen = !menuOpen;
+    document.body.classList.toggle('menu-open', menuOpen);
+    /* no overflow:hidden — card doesn't block page */
+  }
+
+  /* Click outside card to close */
+  document.addEventListener('click', function(e) {
+    if (menuOpen &&
+        !document.getElementById('menu-overlay').contains(e.target) &&
+        !document.getElementById('gear-btn').contains(e.target)) {
+      toggleMenu();
+    }
+  });
+
+  /* ══ RIGHT NAV ══ */
+  let rNavOpen = false;
+
+  function toggleRNav() {
+    // close gear menu if open
+    if (menuOpen) toggleMenu();
+    rNavOpen = !rNavOpen;
+    document.body.classList.toggle('rnav-open', rNavOpen);
+    document.body.style.overflow = rNavOpen ? 'hidden' : '';
+  }
+
+  document.getElementById('right-overlay').addEventListener('click', function(e) {
+    if (e.target === this) toggleRNav();
+  });
+
+  /* ══ VIDEO WIDGET ══ */
+  (function() {
+    const bubble = document.getElementById('vbot-bubble');
+    const panel  = document.getElementById('vbot-panel');
+    const player = document.getElementById('vbot-player');
+    const closeBtn = document.getElementById('vbot-close');
+
+    // Slide up after 5 seconds (from your original code)
+    setTimeout(() => bubble.classList.add('slide-up'), 5000);
+
+    bubble.addEventListener('click', () => {
+      bubble.style.display = 'none';
+      panel.classList.add('open');
+      // Force reflow so transition fires
+      void panel.offsetWidth;
+      panel.classList.add('animate-in');
+      player.play();
+    });
+
+    closeBtn.addEventListener('click', () => {
+      panel.classList.remove('animate-in');
+      player.pause();
+      player.currentTime = 0;
+      // Wait for close animation then hide
+      setTimeout(() => {
+        panel.classList.remove('open');
+        bubble.style.display = '';
+      }, 400);
+    });
+  })();
+
+  /* ESC closes everything */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (menuOpen) toggleMenu();
+      if (rNavOpen) toggleRNav();
+    }
+  });
+
+  /* ══ THEME ══ */
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    document.querySelectorAll('.menu-theme-btn').forEach(b => b.classList.toggle('active-theme', b.textContent.trim().toLowerCase().includes(t==='magazine'?'mag':t==='atmospheric'?'atm':t==='brutalist'?'bru':'dea')));
+    localStorage.setItem('he-theme', t);
+    resetAnimations();
+    setTimeout(triggerVisible, 80);
+    // Trigger metal logo reveal when switching to metal
+    if (t === 'metal') triggerMetalLogo(300);
+    else resetMetalLogo();
+  }
+
+  function triggerMetalLogo(delay) {
+    const img = document.getElementById('metal-logo-img');
+    if (!img) return;
+    img.classList.remove('metal-revealed');
+    void img.offsetWidth; // force reflow
+    setTimeout(() => img.classList.add('metal-revealed'), delay || 0);
+  }
+
+  function resetMetalLogo() {
+    const img = document.getElementById('metal-logo-img');
+    if (img) img.classList.remove('metal-revealed');
+  }
+
+  function selectTheme(t) {
+    setTheme(t);
+    if (menuOpen) toggleMenu(); /* close card immediately */
+  }
+
+  /* ══ LANGUAGE ══ */
+  function setLang(lang) {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase()===lang));
+    document.querySelectorAll('[data-lang]').forEach(el => el.classList.toggle('active', el.dataset.lang===lang));
+    localStorage.setItem('he-lang', lang);
+    setTimeout(() => { splitHeadings(); resetAnimations(); }, 20);
+  }
+
+  /* ══ INIT ══ */
+  (function(){
+    const lang = localStorage.getItem('he-lang') || (['en','fi','es','fr'].includes(navigator.language.slice(0,2)) ? navigator.language.slice(0,2) : 'en');
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase()===lang));
+    document.querySelectorAll('[data-lang]').forEach(el => el.classList.toggle('active', el.dataset.lang===lang));
+  })();
+
+  splitHeadings();
+  observeAll();
+  setTimeout(triggerVisible, 120);
+
+  (function(){
+    const params      = new URLSearchParams(window.location.search);
+    const urlTheme    = params.get('theme');
+    const urlLang     = params.get('lang');
+    const validThemes = ['magazine','atmospheric','brutalist','metal'];
+    const validLangs  = ['en','fi','es','fr'];
+    const saved       = localStorage.getItem('he-theme');
+
+    // Lang param applies first so headings split in the right language
+    if (urlLang && validLangs.includes(urlLang)) setLang(urlLang);
+
+    // Theme: URL param → saved preference → random
+    if (urlTheme && validThemes.includes(urlTheme)) {
+      setTheme(urlTheme);
+      if (urlTheme === 'metal') triggerMetalLogo(600);
+    } else if (saved) {
+      setTheme(saved);
+      if (saved === 'metal') triggerMetalLogo(600);
+    } else {
+      setTheme(['magazine','atmospheric'][Math.floor(Math.random()*2)]);
+    }
+  })();
+</script>
+</body>
+</html>
